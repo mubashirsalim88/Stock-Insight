@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Welcome to Stock Insight</h1>
+<p>Welcome to Stock Insight: Real-Time Recommendation and Alert System. Our application helps you make informed stock trading decisions with real-time data and expert recommendations.</p>
+<div class="stock-charts">
+    <label for="stock-select">Select Stock:</label>
+    <select id="stock-select">
+        <!-- Options will be populated dynamically -->
+    </select>
+    <label for="timeframe-select">Timeframe:</label>
+    <select id="timeframe-select">
+        <!-- Options will be populated dynamically -->
+    </select>
+    <div id="chart">
+        <!-- Real-Time Interactive Chart will be rendered here -->
+    </div>
+</div>
+{% endblock %}
