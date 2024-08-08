@@ -1,19 +1,55 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Welcome to Stock Insight</h1>
-<p>Welcome to Stock Insight: Real-Time Recommendation and Alert System. Our application helps you make informed stock trading decisions with real-time data and expert recommendations.</p>
-<div class="stock-charts">
-    <label for="stock-select">Select Stock:</label>
-    <select id="stock-select">
-        <!-- Options will be populated dynamically -->
-    </select>
-    <label for="timeframe-select">Timeframe:</label>
-    <select id="timeframe-select">
-        <!-- Options will be populated dynamically -->
-    </select>
-    <div id="chart">
-        <!-- Real-Time Interactive Chart will be rendered here -->
+
+<section class="bg-indigo-900 text-white py-20">
+  <div class="container mx-auto text-center">
+    <h1 class="text-5xl font-bold mb-4">Welcome to Stock Insight</h1>
+    <p class="text-xl mb-8">Your go-to platform for real-time stock recommendations and alerts.</p>
+    <a href="#" class="bg-yellow-400 text-indigo-900 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-yellow-300">
+      Get Started
+    </a>
+  </div>
+</section>
+
+
+<section class="py-20">
+  <div class="container mx-auto text-center">
+    <h2 class="text-3xl font-bold mb-10">Features</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+      <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
+        <div class="text-indigo-900 mb-4">
+          <i class="fas fa-chart-line text-5xl"></i>
+        </div>
+        <h3 class="text-2xl font-semibold mb-4">Real-Time Charts</h3>
+        <p class="text-gray-700">View live stock charts with technical indicators to help you make informed decisions.</p>
+      </div>
+      <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
+        <div class="text-indigo-900 mb-4">
+          <i class="fas fa-bullseye text-5xl"></i>
+        </div>
+        <h3 class="text-2xl font-semibold mb-4">Recommendations</h3>
+        <p class="text-gray-700">Receive daily stock recommendations based on technical analysis and trends.</p>
+      </div>
+      <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
+        <div class="text-indigo-900 mb-4">
+          <i class="fas fa-bell text-5xl"></i>
+        </div>
+        <h3 class="text-2xl font-semibold mb-4">Premium Alerts</h3>
+        <p class="text-gray-700">Get premium alerts for optimal buy and sell opportunities to maximize your profits.</p>
+      </div>
     </div>
-</div>
-{% endblock %}
+  </div>
+</section>
+
+
+<section class="bg-yellow-400 text-indigo-900 py-20">
+  <div class="container mx-auto text-center">
+    <h2 class="text-4xl font-bold mb-4">Ready to Take Control of Your Investments?</h2>
+    <p class="text-xl mb-8">Join Stock Insight today and start making smarter investment decisions.</p>
+    <a href="#" class="bg-indigo-900 text-yellow-400 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-indigo-800">
+      Sign Up Now
+    </a>
+  </div>
+</section>
+{% endblock content %}
