@@ -1,17 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
 <section class="bg-indigo-900 text-white py-20">
   <div class="container mx-auto text-center">
-    <h1 class="text-5xl font-bold mb-4">Welcome to Stock Insight</h1>
+    <h1 id="welcome-message" class="text-5xl font-bold mb-4"></h1>
     <p class="text-xl mb-8">Your go-to platform for real-time stock recommendations and alerts.</p>
     <a href="#" class="bg-yellow-400 text-indigo-900 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-yellow-300">
       Get Started
     </a>
   </div>
 </section>
-
 
 <section class="py-20">
   <div class="container mx-auto text-center">
@@ -42,7 +40,6 @@
   </div>
 </section>
 
-
 <section class="bg-yellow-400 text-indigo-900 py-20">
   <div class="container mx-auto text-center">
     <h2 class="text-4xl font-bold mb-4">Ready to Take Control of Your Investments?</h2>
@@ -52,4 +49,22 @@
     </a>
   </div>
 </section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const element = document.getElementById('welcome-message');
+    const text = "Welcome to Stock Insight";
+    let index = 0;
+
+    function type() {
+      if (index < text.length) {
+        element.textContent += text.charAt(index);
+        index++;
+        setTimeout(type, 100); // Adjust typing speed here
+      }
+    }
+
+    type();
+  });
+</script>
 {% endblock content %}
