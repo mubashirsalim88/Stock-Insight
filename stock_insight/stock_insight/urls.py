@@ -6,5 +6,6 @@ from main.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home,name='home'),
-    path('profile', profile,name='profile')
+    path('profile', profile,name='profile'),
+    path('real-time-charts/', views.real_time_charts, name='real_time_charts'),
 ]

@@ -5,3 +5,6 @@ def home(request):
 
 def profile(request):
     return render(request,'profile.html')
+
+def real_time_charts(request):
+    return render(request, 'real_time_charts.html')
