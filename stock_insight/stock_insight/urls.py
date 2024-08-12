@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 from main import views
+from upstox_integration import views
 from main.views import *
 
 urlpatterns = [
@@ -8,4 +9,6 @@ urlpatterns = [
     path('', home,name='home'),
     path('profile', profile,name='profile'),
     path('real-time-charts/', views.real_time_charts, name='real_time_charts'),
+    path('upstox/authorize/', views.upstox_authorize, name='upstox_authorize'),
+    path('upstox/callback/', views.upstox_callback, name='upstox_callback'),
 ]
