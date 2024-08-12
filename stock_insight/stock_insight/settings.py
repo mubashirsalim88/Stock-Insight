@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main',
+    'upstox_integration'
 ]
 
 MIDDLEWARE = [
@@ -125,3 +126,12 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+UPSTOX_API_KEY = os.getenv('UPSTOX_API_KEY')
+UPSTOX_API_SECRET = os.getenv('UPSTOX_API_SECRET')
+UPSTOX_REDIRECT_URI = os.getenv('UPSTOX_REDIRECT_URI')
