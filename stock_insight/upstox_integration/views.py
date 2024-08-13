@@ -6,9 +6,49 @@ import requests
 from django.shortcuts import render
 from .models import UpstoxToken
 from django.utils import timezone
+from django.http import JsonResponse
+from datetime import timedelta
+
+
+def fetch_historical_data(request):
+    try:
+        # Fetch the latest access token from the database
+        latest_token = UpstoxToken.objects.latest('created_at')
+        access_token = latest_token.access_token
+        
+        # Set up the request to the Upstox API for historical candle data
+        instrument_key = 'NSE_EQ|INE009A01021'  # Replace with your desired instrument key
+        interval = '30minute'  # 30-minute interval
+        to_date = '2024-08-12'  # Replace with your desired 'to_date'
+        from_date = '2024-01-01'  # Replace with your desired 'from_date'
+
+        url = f"https://api-v2.upstox.com/v2/historical-candle/{instrument_key}/{interval}/{to_date}/{from_date}"
+        
+        headers = {
+            'Authorization': f'Bearer {access_token}',
+            'accept': 'application/json',
+        }
+
+        # Make the request to the Upstox API
+        response = requests.get(url, headers=headers)
+
+        # Check if the request was successful
+        if response.status_code == 200:
+            return JsonResponse(response.json())  # Return the JSON response
+        else:
+            return JsonResponse({'error': f'Upstox API error: {response.text}'}, status=response.status_code)
+
+    except UpstoxToken.DoesNotExist:
+        return JsonResponse({'error': 'No access token found.'}, status=500)
+
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+
 
 def real_time_charts(request):
     return render(request, 'real_time_charts.html')
+
 
 def upstox_authorize(request):
     client_id = settings.UPSTOX_API_KEY
