@@ -7,23 +7,24 @@ from django.shortcuts import render
 from .models import UpstoxToken
 from django.utils import timezone
 from django.http import JsonResponse
-from datetime import timedelta
+from .instrument_keys import INSTRUMENT_KEYS 
 
 
-def fetch_historical_data(request):
+
+def fetch_historical_data(request, stock_symbol):
     try:
+        # Fetch the instrument key based on the provided stock symbol
+        instrument_key = INSTRUMENT_KEYS.get(stock_symbol)
+
+        if not instrument_key:
+            return JsonResponse({'error': 'Invalid stock symbol.'}, status=400)
+
         # Fetch the latest access token from the database
         latest_token = UpstoxToken.objects.latest('created_at')
         access_token = latest_token.access_token
         
-        # Set up the request to the Upstox API for historical candle data
-        instrument_key = 'NSE_EQ|INE009A01021'  # Replace with your desired instrument key
-        interval = '30minute'  # 30-minute interval
-        to_date = '2024-08-12'  # Replace with your desired 'to_date'
-        from_date = '2024-01-01'  # Replace with your desired 'from_date'
-
-        url = f"https://api-v2.upstox.com/v2/historical-candle/{instrument_key}/{interval}/{to_date}/{from_date}"
-        
+        # Set up the request to the Upstox API
+        url = f"https://api-v2.upstox.com/v2/historical-candle/{instrument_key}/30minute/2024-08-12/2024-01-01"
         headers = {
             'Authorization': f'Bearer {access_token}',
             'accept': 'application/json',
@@ -43,6 +44,7 @@ def fetch_historical_data(request):
 
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
+
 
 
 
