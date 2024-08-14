@@ -8,6 +8,7 @@ from .models import UpstoxToken
 from django.utils import timezone
 from django.http import JsonResponse
 from .instrument_keys import INSTRUMENT_KEYS 
+from datetime import datetime, timedelta
 
 
 
@@ -22,9 +23,13 @@ def fetch_historical_data(request, stock_symbol):
         # Fetch the latest access token from the database
         latest_token = UpstoxToken.objects.latest('created_at')
         access_token = latest_token.access_token
+
+        # Calculate date range dynamically
+        end_date = datetime.now().strftime('%Y-%m-%d')
+        start_date = (datetime.now() - timedelta(days=365)).strftime('%Y-%m-%d')
+        url = f"https://api-v2.upstox.com/v2/historical-candle/{instrument_key}/30minute/{end_date}/{start_date}"
+
         
-        # Set up the request to the Upstox API
-        url = f"https://api-v2.upstox.com/v2/historical-candle/{instrument_key}/30minute/2024-08-12/2024-01-01"
         headers = {
             'Authorization': f'Bearer {access_token}',
             'accept': 'application/json',
@@ -44,7 +49,6 @@ def fetch_historical_data(request, stock_symbol):
 
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
-
 
 
 
