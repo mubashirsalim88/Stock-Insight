@@ -1,0 +1,97 @@
+<!-- real_time_charts.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto mt-8">
+    <h1 class="text-3xl font-bold text-center text-blue-800 mb-4">Real-Time Charts</h1>
+
+    <!-- Dropdown to select stock -->
+    <div class="mb-4">
+        <label for="stock-selector" class="block text-lg font-medium">Select Stock:</label>
+        <select id="stock-selector" class="mt-1 p-2 border rounded">
+            <option value="RELIANCE">RELIANCE</option>
+            <option value="TCS">TCS</option>
+            <option value="INFY">INFY</option>
+            <option value="HDFCBANK">HDFCBANK</option>
+            <option value="ICICIBANK">ICICIBANK</option>
+            <option value="HINDUNILVR">HINDUNILVR</option>
+            <option value="ITC">ITC</option>
+            <option value="KOTAKBANK">KOTAKBANK</option>
+            <option value="SBIN">SBIN</option>
+            <option value="BHARTIARTL">BHARTIARTL</option>
+            <option value="ASIANPAINT">ASIANPAINT</option>
+            <option value="MARUTI">MARUTI</option>
+            <option value="LT">LT</option>
+            <option value="AXISBANK">AXISBANK</option>
+            <option value="SUNPHARMA">SUNPHARMA</option>
+            <option value="WIPRO">WIPRO</option>
+            <option value="BAJFINANCE">BAJFINANCE</option>
+            <option value="M&M">M&M</option>
+            <option value="HCLTECH">HCLTECH</option>
+            <option value="ULTRACEMCO">ULTRACEMCO</option>
+            <option value="TECHM">TECHM</option>
+            <option value="TITAN">TITAN</option>
+            <option value="HEROMOTOCO">HEROMOTOCO</option>
+            <option value="DRREDDY">DRREDDY</option>
+            <option value="POWERGRID">POWERGRID</option>
+            <option value="TATAMOTORS">TATAMOTORS</option>
+            <option value="NTPC">NTPC</option>
+            <option value="ONGC">ONGC</option>
+            <option value="ADANIGREEN">ADANIGREEN</option>
+            <option value="BPCL">BPCL</option>
+            <option value="GRASIM">GRASIM</option>
+            <option value="INDUSINDBK">INDUSINDBK</option>
+            <option value="JSWSTEEL">JSWSTEEL</option>
+            <option value="ADANIPORTS">ADANIPORTS</option>
+            <option value="HINDALCO">HINDALCO</option>
+            <option value="ADANIENT">ADANIENT</option>
+            <option value="DIVISLAB">DIVISLAB</option>
+            <option value="COALINDIA">COALINDIA</option>
+            <option value="BAJAJ-AUTO">BAJAJ-AUTO</option>
+            <option value="SHREECEM">SHREECEM</option>
+            <option value="BRITANNIA">BRITANNIA</option>
+            <option value="EICHERMOT">EICHERMOT</option>
+            <option value="SBILIFE">SBILIFE</option>
+            <option value="ICICIGI">ICICIGI</option>
+            <option value="HDFCLIFE">HDFCLIFE</option>
+            <option value="DMART">DMART</option>
+            <option value="TATACONSUM">TATACONSUM</option>
+            <option value="APOLLOHOSP">APOLLOHOSP</option>
+            <option value="PIDILITIND">PIDILITIND</option>
+            <option value="HAVELLS">HAVELLS</option>
+            <option value="HDFCAMC">HDFCAMC</option>
+            <option value="MCDOWELL-N">MCDOWELL-N</option>
+            <option value="ADANITRANS">ADANITRANS</option>
+
+        </select>
+    </div>
+
+    <div id="chart-data" class="bg-white p-6 rounded-lg shadow-md">
+        <!-- The chart will be rendered here -->
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        function fetchStockData(symbol) {
+            $.get(`/fetch-historical-data/${symbol}/`, function (data) {
+                if (data.error) {
+                    $('#chart-data').html('<p>Error: ' + data.error + '</p>');
+                } else {
+                    $('#chart-data').html('<pre>' + JSON.stringify(data, null, 2) + '</pre>');
+                }
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                $('#chart-data').html('<p>Failed to fetch data: ' + textStatus + '</p>');
+            });
+        }
+
+        // Fetch data for the default stock on page load
+        fetchStockData($('#stock-selector').val());
+
+        // Fetch data when a new stock is selected
+        $('#stock-selector').change(function () {
+            fetchStockData($(this).val());
+        });
+    });
+</script>
+{% endblock content %}

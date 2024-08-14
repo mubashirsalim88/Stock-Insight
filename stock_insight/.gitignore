@@ -1,0 +1,32 @@
+# .gitignore
+
+# Python
+*.pyc
+__pycache__/
+
+# Django
+/db.sqlite3
+/media
+/staticfiles
+
+# Environment variables
+.env
+
+# Virtual environments
+/venv/
+/env/
+
+# IDE settings
+.idea/
+.vscode/
+
+# MacOS
+.DS_Store
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
