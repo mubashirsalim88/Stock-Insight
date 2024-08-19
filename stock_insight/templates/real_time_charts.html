@@ -66,20 +66,94 @@
         </select>
     </div>
 
-    <div id="chart-data" class="bg-white p-6 rounded-lg shadow-md">
-        <!-- The chart will be rendered here -->
-    </div>
+    <div id="chart-data" style="height: 400px; min-width: 310px"></div>
+
 </div>
 
 <script>
     $(document).ready(function () {
         function fetchStockData(symbol) {
             $.get(`/fetch-historical-data/${symbol}/`, function (data) {
+                console.log('API Response:', data);
+
                 if (data.error) {
                     $('#chart-data').html('<p>Error: ' + data.error + '</p>');
-                } else {
-                    $('#chart-data').html('<pre>' + JSON.stringify(data, null, 2) + '</pre>');
+                    return;
                 }
+
+                // Check if data is an empty array or not
+                if (!data.data || data.data.candles.length === 0) {
+                    $('#chart-data').html('<p>No data available for ' + symbol + '</p>');
+                    return;
+                }
+
+                // Process data for Highcharts
+                var chartData = data.data.candles.map(candle => {
+                    // console.log(candle[0]);
+                    const date = new Date(candle[0]);
+                    // console.log(date.getTime());
+                    return [
+                    // candle[0],
+                    date,
+                    candle[1],  // Open
+                    candle[2],  // High
+                    candle[3],  // Low
+                    candle[4]   // Close
+                ]
+            });
+
+                console.log('Processed Chart Data:', chartData);
+
+                // Create the chart
+                // Highcharts.stockChart('chart-data', {
+                //     rangeSelector: {
+                //         selected: 1
+                //     },
+                //     title: {
+                //         text: symbol + ' Stock Price'
+                //     },
+                //     series: [{
+                //         type: 'candlestick',
+                //         name: symbol,
+                //         data: chartData,
+                //         tooltip: {
+                //             valueDecimals: 2
+                //         }
+                //     }]
+                // });
+                Highcharts.stockChart('chart-data', {
+
+                    title: {
+                        text: 'AAPL stock price by minute'
+                    },
+
+                    rangeSelector: {
+                        buttons: [{
+                            type: 'hour',
+                            count: 1,
+                            text: '1h'
+                        }, {
+                            type: 'day',
+                            count: 1,
+                            text: '1D'
+                        }, {
+                            type: 'all',
+                            count: 1,
+                            text: 'All'
+                        }],
+                        selected: 1,
+                        inputEnabled: false
+                    },
+
+                    series: [{
+                        name: 'AAPL',
+                        type: 'candlestick',
+                        data: chartData,
+                        tooltip: {
+                            valueDecimals: 2
+                        }
+                    }]
+                });
             }).fail(function (jqXHR, textStatus, errorThrown) {
                 $('#chart-data').html('<p>Failed to fetch data: ' + textStatus + '</p>');
             });
@@ -94,4 +168,6 @@
         });
     });
 </script>
+
+
 {% endblock content %}
