@@ -24,7 +24,7 @@
 
 <script>
     $(document).ready(function () {
-        function fetchStockData(symbol) {
+        function fetchStockData(symbol, timeframe = '30minute') {
             $.get(`/fetch-historical-data/${symbol}/`, function (data) {
                 console.log('API Response:', data);
 
@@ -33,68 +33,69 @@
                     return;
                 }
 
-                if (!data.data || data.data.candles.length === 0) {
-                    $('#chart-data').html('<p>No data available for ' + symbol + '</p>');
-                    return;
-                }
-
-                var chartData = data.data.candles.map(candle => {
-                    return [
+                // Select the appropriate data based on the timeframe
+                var chartData = [];
+                if (timeframe === '30minute' && data['30minute'].data && data['30minute'].data.candles.length > 0) {
+                    chartData = data['30minute'].data.candles.map(candle => [
                         candle[0],  // Timestamp in milliseconds
                         candle[1],  // Open
                         candle[2],  // High
                         candle[3],  // Low
                         candle[4]   // Close
-                    ];
-                });
+                    ]).reverse();
+                } else if (timeframe === 'day' && data['day'].data && data['day'].data.candles.length > 0) {
+                    chartData = data['day'].data.candles.map(candle => [
+                        candle[0],  // Timestamp in milliseconds
+                        candle[1],  // Open
+                        candle[2],  // High
+                        candle[3],  // Low
+                        candle[4]   // Close
+                    ]).reverse();
+                } else {
+                    $('#chart-data').html('<p>No data available for ' + symbol + '</p>');
+                    return;
+                }
 
-                // Keep the data in chronological order (left to right)
-                chartData.reverse();
-
-                console.log('Processed Chart Data:', chartData);
-
-                // Latest price is the last entry in the array (right side of the chart)
+                // Update the stock info heading with the latest close price
                 var latestClose = chartData[chartData.length - 1][4];
-                
-                // Find the last day's close price
-                var lastDayCloseIndex = chartData.length - 2; // Index of the previous day's close
+                var lastDayCloseIndex = chartData.length - 2;
                 var lastDayClose = chartData[lastDayCloseIndex][4];
-
-                // Calculate the percentage change based on last day's close and the latest close
                 var percentageChange = ((latestClose - lastDayClose) / lastDayClose * 100).toFixed(2);
-
-                // Update the stock info heading
                 $('#stock-info').html(`${symbol} - $${latestClose} (${percentageChange}%)`);
 
+                // Render the chart with the selected timeframe data
                 Highcharts.stockChart('chart-data', {
                     chart: {
-                        marginRight: 50 // Adds margin to the right of the chart
+                        marginRight: 50
                     },
                     yAxis: {
                         labels: {
-                            align: 'left', // Aligns the price labels to the left of the yAxis
-                            x: 15 // Adds extra space between the price labels and the yAxis
+                            align: 'left',
+                            x: 15
                         }
                     },
                     rangeSelector: {
+                        allButtonsEnabled: true,
                         buttons: [{
                             type: 'minute',
                             count: 30,
-                            text: '30m'
-                        }, {
-                            type: 'hour',
-                            count: 1,
-                            text: '1h'
+                            text: '30m',
+                            events: {
+                                click: function () {
+                                    fetchStockData(symbol, '30minute');
+                                }
+                            }
                         }, {
                             type: 'day',
                             count: 1,
-                            text: '1D'
-                        }, {
-                            type: 'all',
-                            count: 1,
-                            text: 'All'
+                            text: '1D',
+                            events: {
+                                click: function () {
+                                    fetchStockData(symbol, 'day');
+                                }
+                            }
                         }],
-                        selected: 1,
+                        selected: timeframe === '30minute' ? 0 : 1,
                         inputEnabled: false
                     },
                     series: [{
@@ -111,12 +112,12 @@
             });
         }
 
-        // Fetch data for the initially selected stock
-        fetchStockData($('.stock-item:first').data('symbol'));
+        // Fetch data for the initially selected stock with default timeframe 30 minutes
+        fetchStockData($('.stock-item:first').data('symbol'), '30minute');
 
         // Handle stock selection from the list
         $('.stock-item').click(function () {
-            fetchStockData($(this).data('symbol'));
+            fetchStockData($(this).data('symbol'), '30minute');
         });
 
         // Implement search functionality
@@ -133,4 +134,6 @@
         });
     });
 </script>
+
+
 {% endblock content %}
