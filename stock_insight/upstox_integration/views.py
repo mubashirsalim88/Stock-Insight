@@ -63,7 +63,17 @@ def fetch_historical_data(request, stock_symbol):
 
 
 def real_time_charts(request):
-    return render(request, 'real_time_charts.html')
+    # Fetch the latest access token
+    try:
+        latest_token = UpstoxToken.objects.latest('created_at')
+        access_token = latest_token.access_token
+    except UpstoxToken.DoesNotExist:
+        access_token = None
+
+    return render(request, 'real_time_charts.html', {
+        'access_token': access_token
+    })
+
 
 
 def upstox_authorize(request):

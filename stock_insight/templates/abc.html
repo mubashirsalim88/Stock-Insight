@@ -1,78 +1,44 @@
-<!-- real_time_charts.html -->
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container mx-auto mt-8">
-    <h1 class="text-3xl font-bold text-center text-blue-800 mb-4">Real-Time Charts</h1>
-
-    <!-- Dropdown to select stock -->
-    <div class="mb-4">
-        <label for="stock-selector" class="block text-lg font-medium">Select Stock:</label>
-        <select id="stock-selector" class="mt-1 p-2 border rounded">
-            <option value="RELIANCE">RELIANCE</option>
-            <option value="TCS">TCS</option>
-            <option value="INFY">INFY</option>
-            <option value="HDFCBANK">HDFCBANK</option>
-            <option value="ICICIBANK">ICICIBANK</option>
-            <option value="HINDUNILVR">HINDUNILVR</option>
-            <option value="ITC">ITC</option>
-            <option value="KOTAKBANK">KOTAKBANK</option>
-            <option value="SBIN">SBIN</option>
-            <option value="BHARTIARTL">BHARTIARTL</option>
-            <option value="ASIANPAINT">ASIANPAINT</option>
-            <option value="MARUTI">MARUTI</option>
-            <option value="LT">LT</option>
-            <option value="AXISBANK">AXISBANK</option>
-            <option value="SUNPHARMA">SUNPHARMA</option>
-            <option value="WIPRO">WIPRO</option>
-            <option value="BAJFINANCE">BAJFINANCE</option>
-            <option value="M&M">M&M</option>
-            <option value="HCLTECH">HCLTECH</option>
-            <option value="ULTRACEMCO">ULTRACEMCO</option>
-            <option value="TECHM">TECHM</option>
-            <option value="TITAN">TITAN</option>
-            <option value="HEROMOTOCO">HEROMOTOCO</option>
-            <option value="DRREDDY">DRREDDY</option>
-            <option value="POWERGRID">POWERGRID</option>
-            <option value="TATAMOTORS">TATAMOTORS</option>
-            <option value="NTPC">NTPC</option>
-            <option value="ONGC">ONGC</option>
-            <option value="ADANIGREEN">ADANIGREEN</option>
-            <option value="BPCL">BPCL</option>
-            <option value="GRASIM">GRASIM</option>
-            <option value="INDUSINDBK">INDUSINDBK</option>
-            <option value="JSWSTEEL">JSWSTEEL</option>
-            <option value="ADANIPORTS">ADANIPORTS</option>
-            <option value="HINDALCO">HINDALCO</option>
-            <option value="ADANIENT">ADANIENT</option>
-            <option value="DIVISLAB">DIVISLAB</option>
-            <option value="COALINDIA">COALINDIA</option>
-            <option value="BAJAJ-AUTO">BAJAJ-AUTO</option>
-            <option value="SHREECEM">SHREECEM</option>
-            <option value="BRITANNIA">BRITANNIA</option>
-            <option value="EICHERMOT">EICHERMOT</option>
-            <option value="SBILIFE">SBILIFE</option>
-            <option value="ICICIGI">ICICIGI</option>
-            <option value="HDFCLIFE">HDFCLIFE</option>
-            <option value="DMART">DMART</option>
-            <option value="TATACONSUM">TATACONSUM</option>
-            <option value="APOLLOHOSP">APOLLOHOSP</option>
-            <option value="PIDILITIND">PIDILITIND</option>
-            <option value="HAVELLS">HAVELLS</option>
-            <option value="HDFCAMC">HDFCAMC</option>
-            <option value="MCDOWELL-N">MCDOWELL-N</option>
-            <option value="ADANITRANS">ADANITRANS</option>
-
-        </select>
+<div class="container mx-auto mt-8 flex">
+    <!-- Main Chart Area -->
+    <div class="flex-grow">
+        <div id="stock-info" class="text-3xl font-bold text-center text-blue-800 mb-4">
+            <!-- Stock name, price, and percentage change will be inserted here -->
+        </div>
+        <div id="chart-data" style="height: 500px; min-width: 310px"></div>
     </div>
 
-    <div id="chart-data" style="height: 400px; min-width: 310px"></div>
+    <!-- Sidebar for Stock List with Search Functionality -->
+    <div class="w-1/4 ml-4 p-4 bg-gray-100 rounded-lg shadow-lg">
+        <h2 class="text-xl font-semibold mb-4">Search Stock</h2>
+        <input type="text" id="stock-search" class="w-full p-2 border rounded mb-4" placeholder="Search for a stock...">
 
+        <div id="stock-list-container" class="h-96 overflow-y-scroll">
+            {% include 'stock_list.html' %}
+        </div>
+    </div>
 </div>
 
 <script>
     $(document).ready(function () {
-        function fetchStockData(symbol) {
+        const accessToken = "{{ access_token }}";
+
+        function fetchLTP(symbol) {
+            const apiUrl = `https://api-v2.upstox.com/v2/market-quote/ltp?symbol=${symbol}`;
+            
+            return $.ajax({
+                url: apiUrl,
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'accept': 'application/json'
+                }
+            });
+        }
+
+        function fetchStockData(symbol, timeframe = 'day') {
             $.get(`/fetch-historical-data/${symbol}/`, function (data) {
                 console.log('API Response:', data);
 
@@ -81,34 +47,75 @@
                     return;
                 }
 
-                // Check if data is an empty array or not
-                if (!data.data || data.data.candles.length === 0) {
+                // Fetch LTP and update stock info
+                fetchLTP(symbol).done(function(ltpData) {
+                    const ltp = ltpData.data[symbol].ltp;
+                    $('#stock-info').html(`${symbol} - LTP: ₹${ltp}`);
+                }).fail(function() {
+                    $('#stock-info').html(`${symbol} - LTP: N/A`);
+                });
+
+                // Process chart data
+                var chartData = [];
+
+                if (timeframe === '30minute' && data['30minute'].data && data['30minute'].data.candles.length > 0) {
+                    chartData = data['30minute'].data.candles.map(candle => [
+                        candle[0],  // Timestamp in milliseconds
+                        candle[1],  // Open
+                        candle[2],  // High
+                        candle[3],  // Low
+                        candle[4]   // Close
+                    ]).reverse();
+                } else if (timeframe === 'day' && data['day'].data && data['day'].data.candles.length > 0) {
+                    chartData = data['day'].data.candles.map(candle => [
+                        candle[0],  // Timestamp in milliseconds
+                        candle[1],  // Open
+                        candle[2],  // High
+                        candle[3],  // Low
+                        candle[4]   // Close
+                    ]).reverse();
+                } else {
                     $('#chart-data').html('<p>No data available for ' + symbol + '</p>');
                     return;
                 }
 
-                // Process data for Highcharts
-                var chartData = data.data.candles.map(candle => [
-                    new Date(candle[0]).getTime(),  // Convert timestamp to Unix time in milliseconds
-                    candle[1],  // Open
-                    candle[2],  // High
-                    candle[3],  // Low
-                    candle[4]   // Close
-                ]);
-
-                console.log('Processed Chart Data:', chartData);
-
-                // Create the chart
                 Highcharts.stockChart('chart-data', {
-                    rangeSelector: {
-                        selected: 1
+                    chart: {
+                        marginRight: 50
                     },
-                    title: {
-                        text: symbol + ' Stock Price'
+                    yAxis: {
+                        labels: {
+                            align: 'left',
+                            x: 15
+                        }
+                    },
+                    rangeSelector: {
+                        allButtonsEnabled: true,
+                        buttons: [{
+                            type: 'minute',
+                            count: 30,
+                            text: '30m',
+                            events: {
+                                click: function () {
+                                    fetchStockData(symbol, '30minute');
+                                }
+                            }
+                        }, {
+                            type: 'day',
+                            count: 1,
+                            text: '1D',
+                            events: {
+                                click: function () {
+                                    fetchStockData(symbol, 'day');
+                                }
+                            }
+                        }],
+                        selected: timeframe === 'day' ? 0 : 1,
+                        inputEnabled: false
                     },
                     series: [{
-                        type: 'candlestick',
                         name: symbol,
+                        type: 'candlestick',
                         data: chartData,
                         tooltip: {
                             valueDecimals: 2
@@ -120,15 +127,42 @@
             });
         }
 
-        // Fetch data for the default stock on page load
-        fetchStockData($('#stock-selector').val());
+        function startLTPAutoRefresh(symbol) {
+            setInterval(function() {
+                fetchLTP(symbol).done(function(ltpData) {
+                    const ltp = ltpData.data[symbol].ltp;
+                    $('#stock-info').html(`${symbol} - LTP: ₹${ltp}`);
+                }).fail(function() {
+                    $('#stock-info').html(`${symbol} - LTP: N/A`);
+                });
+            }, 5000); // Refresh every 5 seconds
+        }
 
-        // Fetch data when a new stock is selected
-        $('#stock-selector').change(function () {
-            fetchStockData($(this).val());
+        // Fetch data for the initially selected stock with default timeframe day
+        const initialSymbol = $('.stock-item:first').data('symbol');
+        fetchStockData(initialSymbol, 'day');
+        startLTPAutoRefresh(initialSymbol);
+
+        // Handle stock selection from the list
+        $('.stock-item').click(function () {
+            const selectedSymbol = $(this).data('symbol');
+            fetchStockData(selectedSymbol, 'day');
+            startLTPAutoRefresh(selectedSymbol);
+        });
+
+        // Implement search functionality
+        $('#stock-search').on('keyup', function () {
+            var searchTerm = $(this).val().toLowerCase();
+            $('.stock-item').each(function () {
+                var stockName = $(this).text().toLowerCase();
+                if (stockName.indexOf(searchTerm) !== -1) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
         });
     });
 </script>
-
 
 {% endblock content %}
