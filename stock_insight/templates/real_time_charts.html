@@ -2,72 +2,24 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container mx-auto mt-8">
-    <h1 class="text-3xl font-bold text-center text-blue-800 mb-4">Real-Time Charts</h1>
-
-    <!-- Dropdown to select stock -->
-    <div class="mb-4">
-        <label for="stock-selector" class="block text-lg font-medium">Select Stock:</label>
-        <select id="stock-selector" class="mt-1 p-2 border rounded">
-            <option value="RELIANCE">RELIANCE</option>
-            <option value="TCS">TCS</option>
-            <option value="INFY">INFY</option>
-            <option value="HDFCBANK">HDFCBANK</option>
-            <option value="ICICIBANK">ICICIBANK</option>
-            <option value="HINDUNILVR">HINDUNILVR</option>
-            <option value="ITC">ITC</option>
-            <option value="KOTAKBANK">KOTAKBANK</option>
-            <option value="SBIN">SBIN</option>
-            <option value="BHARTIARTL">BHARTIARTL</option>
-            <option value="ASIANPAINT">ASIANPAINT</option>
-            <option value="MARUTI">MARUTI</option>
-            <option value="LT">LT</option>
-            <option value="AXISBANK">AXISBANK</option>
-            <option value="SUNPHARMA">SUNPHARMA</option>
-            <option value="WIPRO">WIPRO</option>
-            <option value="BAJFINANCE">BAJFINANCE</option>
-            <option value="M&M">M&M</option>
-            <option value="HCLTECH">HCLTECH</option>
-            <option value="ULTRACEMCO">ULTRACEMCO</option>
-            <option value="TECHM">TECHM</option>
-            <option value="TITAN">TITAN</option>
-            <option value="HEROMOTOCO">HEROMOTOCO</option>
-            <option value="DRREDDY">DRREDDY</option>
-            <option value="POWERGRID">POWERGRID</option>
-            <option value="TATAMOTORS">TATAMOTORS</option>
-            <option value="NTPC">NTPC</option>
-            <option value="ONGC">ONGC</option>
-            <option value="ADANIGREEN">ADANIGREEN</option>
-            <option value="BPCL">BPCL</option>
-            <option value="GRASIM">GRASIM</option>
-            <option value="INDUSINDBK">INDUSINDBK</option>
-            <option value="JSWSTEEL">JSWSTEEL</option>
-            <option value="ADANIPORTS">ADANIPORTS</option>
-            <option value="HINDALCO">HINDALCO</option>
-            <option value="ADANIENT">ADANIENT</option>
-            <option value="DIVISLAB">DIVISLAB</option>
-            <option value="COALINDIA">COALINDIA</option>
-            <option value="BAJAJ-AUTO">BAJAJ-AUTO</option>
-            <option value="SHREECEM">SHREECEM</option>
-            <option value="BRITANNIA">BRITANNIA</option>
-            <option value="EICHERMOT">EICHERMOT</option>
-            <option value="SBILIFE">SBILIFE</option>
-            <option value="ICICIGI">ICICIGI</option>
-            <option value="HDFCLIFE">HDFCLIFE</option>
-            <option value="DMART">DMART</option>
-            <option value="TATACONSUM">TATACONSUM</option>
-            <option value="APOLLOHOSP">APOLLOHOSP</option>
-            <option value="PIDILITIND">PIDILITIND</option>
-            <option value="HAVELLS">HAVELLS</option>
-            <option value="HDFCAMC">HDFCAMC</option>
-            <option value="MCDOWELL-N">MCDOWELL-N</option>
-            <option value="ADANITRANS">ADANITRANS</option>
-
-        </select>
+<div class="container mx-auto mt-8 flex">
+    <!-- Main Chart Area -->
+    <div class="flex-grow">
+        <div id="stock-info" class="text-3xl font-bold text-center text-blue-800 mb-4">
+            <!-- Stock name, price, and percentage change will be inserted here -->
+        </div>
+        <div id="chart-data" style="height: 500px; min-width: 310px"></div>
     </div>
 
-    <div id="chart-data" style="height: 400px; min-width: 310px"></div>
+    <!-- Sidebar for Stock List with Search Functionality -->
+    <div class="w-1/4 ml-4 p-4 bg-gray-100 rounded-lg shadow-lg">
+        <h2 class="text-xl font-semibold mb-4">Search Stock</h2>
+        <input type="text" id="stock-search" class="w-full p-2 border rounded mb-4" placeholder="Search for a stock...">
 
+        <div id="stock-list-container" class="h-96 overflow-y-scroll">
+            {% include 'stock_list.html' %}
+        </div>
+    </div>
 </div>
 
 <script>
@@ -81,54 +33,55 @@
                     return;
                 }
 
-                // Check if data is an empty array or not
                 if (!data.data || data.data.candles.length === 0) {
                     $('#chart-data').html('<p>No data available for ' + symbol + '</p>');
                     return;
                 }
 
-                // Process data for Highcharts
                 var chartData = data.data.candles.map(candle => {
-                    // console.log(candle[0]);
-                    const date = new Date(candle[0]);
-                    // console.log(date.getTime());
                     return [
-                    // candle[0],
-                    date,
-                    candle[1],  // Open
-                    candle[2],  // High
-                    candle[3],  // Low
-                    candle[4]   // Close
-                ]
-            });
+                        candle[0],  // Timestamp in milliseconds
+                        candle[1],  // Open
+                        candle[2],  // High
+                        candle[3],  // Low
+                        candle[4]   // Close
+                    ];
+                });
+
+                // Keep the data in chronological order (left to right)
+                chartData.reverse();
 
                 console.log('Processed Chart Data:', chartData);
 
-                // Create the chart
-                // Highcharts.stockChart('chart-data', {
-                //     rangeSelector: {
-                //         selected: 1
-                //     },
-                //     title: {
-                //         text: symbol + ' Stock Price'
-                //     },
-                //     series: [{
-                //         type: 'candlestick',
-                //         name: symbol,
-                //         data: chartData,
-                //         tooltip: {
-                //             valueDecimals: 2
-                //         }
-                //     }]
-                // });
+                // Latest price is the last entry in the array (right side of the chart)
+                var latestClose = chartData[chartData.length - 1][4];
+                
+                // Find the last day's close price
+                var lastDayCloseIndex = chartData.length - 2; // Index of the previous day's close
+                var lastDayClose = chartData[lastDayCloseIndex][4];
+
+                // Calculate the percentage change based on last day's close and the latest close
+                var percentageChange = ((latestClose - lastDayClose) / lastDayClose * 100).toFixed(2);
+
+                // Update the stock info heading
+                $('#stock-info').html(`${symbol} - $${latestClose} (${percentageChange}%)`);
+
                 Highcharts.stockChart('chart-data', {
-
-                    title: {
-                        text: 'AAPL stock price by minute'
+                    chart: {
+                        marginRight: 50 // Adds margin to the right of the chart
                     },
-
+                    yAxis: {
+                        labels: {
+                            align: 'left', // Aligns the price labels to the left of the yAxis
+                            x: 15 // Adds extra space between the price labels and the yAxis
+                        }
+                    },
                     rangeSelector: {
                         buttons: [{
+                            type: 'minute',
+                            count: 30,
+                            text: '30m'
+                        }, {
                             type: 'hour',
                             count: 1,
                             text: '1h'
@@ -144,9 +97,8 @@
                         selected: 1,
                         inputEnabled: false
                     },
-
                     series: [{
-                        name: 'AAPL',
+                        name: symbol,
                         type: 'candlestick',
                         data: chartData,
                         tooltip: {
@@ -159,15 +111,26 @@
             });
         }
 
-        // Fetch data for the default stock on page load
-        fetchStockData($('#stock-selector').val());
+        // Fetch data for the initially selected stock
+        fetchStockData($('.stock-item:first').data('symbol'));
 
-        // Fetch data when a new stock is selected
-        $('#stock-selector').change(function () {
-            fetchStockData($(this).val());
+        // Handle stock selection from the list
+        $('.stock-item').click(function () {
+            fetchStockData($(this).data('symbol'));
+        });
+
+        // Implement search functionality
+        $('#stock-search').on('keyup', function () {
+            var searchTerm = $(this).val().toLowerCase();
+            $('.stock-item').each(function () {
+                var stockName = $(this).text().toLowerCase();
+                if (stockName.indexOf(searchTerm) !== -1) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
         });
     });
 </script>
-
-
 {% endblock content %}
