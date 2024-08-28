@@ -4,28 +4,46 @@
 {% load static %}
 
 {% block content %}
-<div class="container mx-auto mt-8 flex">
-    <!-- Main Chart Area -->
-    <div class="flex-grow">
-        <div id="stock-info" class="text-3xl font-bold text-center text-blue-800 mb-4">
-            <!-- Stock name, price, and percentage change will be inserted here -->
+<div class="container mx-auto mt-8 flex flex-col" style="margin-top: 5px; margin-bottom: 0vh;">
+
+    <!-- Main Content -->
+    <div class="flex flex-grow">
+
+        <!-- Sidebar (Stock List) -->
+<aside id="default-sidebar" class="bg-blue-50 p-4 overflow-y-auto rounded-lg shadow-lg transform transition-transform duration-300 ease-in-out hover:scale-105" style="height: 600px; min-width: 250px; flex-basis: 25%; border: 1px solid #e0e0e0;">
+    <div class="h-full px-3 py-4 space-y-4">
+        
+        <!-- Search Bar -->
+        <div class="relative">
+            <input type="text" id="stock-search" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-800 placeholder-gray-500 bg-gray-50 transition duration-300 ease-in-out transform hover:scale-105" placeholder="Search for a stock...">
+            <svg class="absolute right-3 top-3 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 21l6-6m0 0l6-6M16 7l-6 6m0 0L4 7"/>
+            </svg>
         </div>
-        <div id="chart-data" style="height: 500px; min-width: 310px"></div>
+        
+        <!-- Stock List -->
+        <div class="overflow-y-auto scrollbar-thin scrollbar-thumb-blue-200 scrollbar-track-gray-100 hover:scrollbar-thumb-blue-300" style="max-height: 500px;">
+            <ul class="space-y-2 font-medium text-gray-700">
+                {% include 'stock_list.html' %}
+            </ul>
+        </div>
+    </div>
+</aside>
+
+
+        <!-- Chart Section -->
+        <main class="flex-grow p-6 bg-white dark:bg-gray-800" style="height: 600px;">
+            <div id="chartContainer" class="h-full">
+                <div id="stock-info" class="text-3xl font-bold text-center text-blue-800 mb-4">
+                    <!-- Stock name, price, and percentage change will be inserted here -->
+                </div>
+                <div id="chart-data" style="height: 500px; min-width: 310px;"></div>
+            </div>
+        </main>
     </div>
 
-    <!-- Sidebar for Stock List with Search Functionality -->
-    <div class="w-1/4 ml-4 p-4 bg-gray-100 rounded-lg shadow-lg">
-        <h2 class="text-xl font-semibold mb-4">Search Stock</h2>
-        <input type="text" id="stock-search" class="w-full p-2 border rounded mb-4" placeholder="Search for a stock...">
-
-        <div id="stock-list-container" class="h-96 overflow-y-scroll">
-            {% include 'stock_list.html' %}
-        </div>
-    </div>
 </div>
 
 <!-- Include the external JS file -->
-<script src="{% static '\js\stock_charts.js' %}"></script>
-
-
+<script src="{% static 'js/stock_charts.js' %}"></script>
 {% endblock content %}
