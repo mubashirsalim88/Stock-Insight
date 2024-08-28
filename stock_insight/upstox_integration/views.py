@@ -27,22 +27,30 @@ def fetch_historical_data(request, stock_symbol):
         # Calculate date range dynamically
         end_date = datetime.now().strftime('%Y-%m-%d')
         start_date = (datetime.now() - timedelta(days=365)).strftime('%Y-%m-%d')
-        url = f"https://api-v2.upstox.com/v2/historical-candle/{instrument_key}/30minute/{end_date}/{start_date}"
 
-        
+        # URLs for 30-minute and daily data
+        url_30min = f"https://api-v2.upstox.com/v2/historical-candle/{instrument_key}/30minute/{end_date}/{start_date}"
+        url_day = f"https://api-v2.upstox.com/v2/historical-candle/{instrument_key}/day/{end_date}/{start_date}"
+
         headers = {
             'Authorization': f'Bearer {access_token}',
             'accept': 'application/json',
         }
 
-        # Make the request to the Upstox API
-        response = requests.get(url, headers=headers)
+        # Make the request to the Upstox API for 30-minute data
+        response_30min = requests.get(url_30min, headers=headers)
+        # Make the request to the Upstox API for daily data
+        response_day = requests.get(url_day, headers=headers)
 
-        # Check if the request was successful
-        if response.status_code == 200:
-            return JsonResponse(response.json())  # Return the JSON response
+        # Check if both requests were successful
+        if response_30min.status_code == 200 and response_day.status_code == 200:
+            return JsonResponse({
+                '30minute': response_30min.json(),
+                'day': response_day.json()
+            })
         else:
-            return JsonResponse({'error': f'Upstox API error: {response.text}'}, status=response.status_code)
+            error_message = f"Upstox API error: {response_30min.text if response_30min.status_code != 200 else response_day.text}"
+            return JsonResponse({'error': error_message}, status=response_30min.status_code if response_30min.status_code != 200 else response_day.status_code)
 
     except UpstoxToken.DoesNotExist:
         return JsonResponse({'error': 'No access token found.'}, status=500)
@@ -52,8 +60,20 @@ def fetch_historical_data(request, stock_symbol):
 
 
 
+
+
 def real_time_charts(request):
-    return render(request, 'real_time_charts.html')
+    # Fetch the latest access token
+    try:
+        latest_token = UpstoxToken.objects.latest('created_at')
+        access_token = latest_token.access_token
+    except UpstoxToken.DoesNotExist:
+        access_token = None
+
+    return render(request, 'real_time_charts.html', {
+        'access_token': access_token
+    })
+
 
 
 def upstox_authorize(request):
