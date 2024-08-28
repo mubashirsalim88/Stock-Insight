@@ -8,6 +8,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home,name='home'),
     path('profile', profile,name='profile'),
+    path('market_today', market_today,name='market_today'),
     path('real-time-charts/', views.real_time_charts, name='real_time_charts'),
     path('upstox/authorize/', views.upstox_authorize, name='upstox_authorize'),
     path('upstox/callback/', views.upstox_callback, name='upstox_callback'),
