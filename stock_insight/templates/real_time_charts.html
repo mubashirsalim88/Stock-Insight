@@ -1,4 +1,3 @@
-<!-- real_time_charts.html -->
 {% extends 'base.html' %}
 
 {% load static %}
@@ -9,6 +8,7 @@
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 <script src="https://code.highcharts.com/stock/indicators/indicators.js"></script>
 <script src="https://code.highcharts.com/stock/indicators/macd.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
 {% endblock scripts %}
 
 {% block content %}
@@ -18,20 +18,27 @@
     <div class="flex flex-grow">
 
         <!-- Sidebar (Stock List) -->
-        <aside id="default-sidebar" class="bg-blue-50 p-4 overflow-y-auto rounded-lg shadow-lg transform transition-transform duration-300 ease-in-out hover:scale-105" style="height: 700px; min-width: 250px; flex-basis: 25%; border: 1px solid #e0e0e0;">
+        <aside id="default-sidebar"
+            class="bg-blue-50 p-4 overflow-y-auto rounded-lg shadow-lg"
+            style="height: 700px; min-width: 250px; max-width: 250px; flex-basis: 25%; border: 1px solid #e0e0e0;">
             <div class="h-full px-3 py-4 space-y-4">
-                
+
                 <!-- Search Bar -->
                 <div class="relative">
-                    <input type="text" id="stock-search" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-800 placeholder-gray-500 bg-gray-50 transition duration-300 ease-in-out transform hover:scale-105" placeholder="Search for a stock...">
-                    <svg class="absolute right-3 top-3 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 21l6-6m0 0l6-6M16 7l-6 6m0 0L4 7"/>
+                    <input type="text" id="stock-search"
+                        class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-800 placeholder-gray-500 bg-gray-50"
+                        placeholder="Search for a stock...">
+                    <svg class="absolute right-3 top-3 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg"
+                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10 21l6-6m0 0l6-6M16 7l-6 6m0 0L4 7" />
                     </svg>
                 </div>
-                
+
                 <!-- Stock List -->
-                <div class="overflow-y-auto scrollbar-thin scrollbar-thumb-blue-200 scrollbar-track-gray-100 hover:scrollbar-thumb-blue-300" style="max-height: 500px;">
-                    <ul class="space-y-2 font-medium text-gray-700">
+                <div class="overflow-y-auto scrollbar-thin scrollbar-thumb-blue-200 scrollbar-track-gray-100 hover:scrollbar-thumb-blue-300"
+                    style="max-height: 500px;">
+                    <ul id="stock-list" class="space-y-2 font-medium text-gray-700">
                         {% include 'stock_list.html' %}
                     </ul>
                 </div>
@@ -41,9 +48,22 @@
         <!-- Chart Section -->
         <main class="flex-grow p-6 bg-white dark:bg-gray-800" style="height: 700px;">
             <div id="chartContainer" class="h-full">
-                <div id="stock-info" class="text-3xl font-bold text-center text-blue-800 mb-4">
-                    <!-- Stock name, price, and percentage change will be inserted here -->
+
+                <!-- Info and Timeframe Button Section -->
+                <div class="flex justify-between items-center mb-4">
+                    <div id="stock-info" class="text-3xl font-bold text-blue-800">
+                        <!-- Stock name, price, and percentage change will be inserted here -->
+                    </div>
+                    <div id="timeframe-buttons-container" class="flex flex-col items-end">
+                        <!-- Increased font size for the Timeframe title -->
+                        <div class="text-2xl font-semibold text-gray-800 mb-2">Timeframe</div>
+                        <div id="timeframe-buttons" class="flex space-x-2">
+                            <!-- Timeframe buttons will be inserted here -->
+                        </div>
+                    </div>
                 </div>
+
+                <!-- Chart Data Section -->
                 <div id="chart-data" style="height: 700px; min-width: 310px;"></div>
             </div>
         </main>
