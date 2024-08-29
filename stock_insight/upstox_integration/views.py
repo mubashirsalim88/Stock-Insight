@@ -61,7 +61,6 @@ def fetch_historical_data(request, stock_symbol):
 
 
 
-
 def real_time_charts(request):
     # Fetch the latest access token
     try:
@@ -80,7 +79,7 @@ def upstox_authorize(request):
     client_id = settings.UPSTOX_API_KEY
     redirect_uri = settings.UPSTOX_REDIRECT_URI
     state = 'optional_state'
-    upstox_auth_url = "https://api.upstox.com/v2/login/authorization/dialog"
+    upstox_auth_url = "https://api-v2.upstox.com/v2/login/authorization/dialog"
     query_params = {
         'response_type': 'code',
         'client_id': client_id,
@@ -93,7 +92,7 @@ def upstox_authorize(request):
 def upstox_callback(request):
     authorization_code = request.GET.get('code')
     if authorization_code:
-        url = "https://api.upstox.com/v2/login/authorization/token"
+        url = "https://api-v2.upstox.com/v2/login/authorization/token"
         data = {
             'code': authorization_code,
             'client_id': settings.UPSTOX_API_KEY,
