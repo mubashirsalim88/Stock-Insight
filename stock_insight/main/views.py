@@ -6,3 +6,7 @@ def home(request):
 def profile(request):
     return render(request,'profile.html')
 
+
+def premium_alerts(request):
+    return render(request,'premium_alerts.html')
+
