@@ -11,24 +11,35 @@
 
         const dailyCandles = data.day.data.candles;
 
+        console.log("Original API Data:", dailyCandles);
+
         const ohlc = [],
               volume = [],
               dataLength = dailyCandles.length;
 
         for (let i = 0; i < dataLength; i += 1) {
+            const timestamp = new Date(dailyCandles[i][0]).getTime();
+
             ohlc.push([
-                dailyCandles[i][0], // the date
-                dailyCandles[i][1], // open
-                dailyCandles[i][2], // high
-                dailyCandles[i][3], // low
-                dailyCandles[i][4] // close
+                timestamp,             // Date as timestamp
+                dailyCandles[i][1],    // Open
+                dailyCandles[i][2],    // High
+                dailyCandles[i][3],    // Low
+                dailyCandles[i][4]     // Close
             ]);
 
             volume.push([
-                dailyCandles[i][0], // the date
-                dailyCandles[i][5] // the volume
+                timestamp,             // Date as timestamp
+                dailyCandles[i][5]     // Volume
             ]);
         }
+
+        // Sort the arrays by timestamp (the first element in each array)
+        ohlc.sort((a, b) => a[0] - b[0]);
+        volume.sort((a, b) => a[0] - b[0]);
+
+        console.log("Sorted OHLC Data:", ohlc);
+        console.log("Sorted Volume Data:", volume);
 
         Highcharts.stockChart('chart-data', {
             chart: {
