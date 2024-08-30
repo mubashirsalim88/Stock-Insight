@@ -1,29 +1,11 @@
 (async () => {
     const timeframes = ['30minute', 'day'];
 
+    // Store latestClose and percentageChange globally to keep them consistent
+    let latestClose, percentageChange;
+
     const updateChart = async (stockSymbol, timeframe = 'day') => {
-        const dailyResponse = await fetch(`/fetch-historical-data/${stockSymbol}/?timeframe=day`);
-        const dailyData = await dailyResponse.json();
-
-        if (dailyData.error) {
-            console.error('Error fetching daily data:', dailyData.error);
-            return;
-        }
-
-        const dailyCandles = dailyData.day.data.candles;
-        const dailyDataLength = dailyCandles.length;
-
-        const latestPrice = dailyCandles[dailyDataLength - 1][4];
-        const previousClose = dailyCandles[dailyDataLength - 2][4];
-        const percentageChange = ((latestPrice - previousClose) / previousClose * 100).toFixed(2);
-
-        // Set the color based on positive or negative percentage change
-        const changeColor = percentageChange >= 0 ? 'text-green-500' : 'text-red-500';
-
-        document.getElementById('stock-info').innerHTML = `
-            ${stockSymbol} - ₹${latestPrice} <span class="${changeColor}">(${percentageChange}%)</span>
-        `;
-
+        // Fetch data for both daily and the selected timeframe
         const response = await fetch(`/fetch-historical-data/${stockSymbol}/?timeframe=${timeframe}`);
         const data = await response.json();
 
@@ -32,18 +14,46 @@
             return;
         }
 
-        const candles = data[timeframe].data.candles;
+        // Calculate latestClose and percentageChange based on daily data only once
+        if (timeframe === 'day' || (!latestClose && !percentageChange)) {
+            if (data['day'] && data['day'].data && data['day'].data.candles.length > 1) {
+                const dayCandles = data['day'].data.candles;
 
-        const ohlc = [],
-            volume = [],
-            dataLength = candles.length;
+                // Extract the close price of the latest complete day (first candle in the array)
+                latestClose = dayCandles[0][4];  // Latest close (first candle)
+
+                // Extract the close price of the previous day (second candle in the array)
+                const previousDayClose = dayCandles[1][4];  // Previous day's close (second candle)
+
+                // Calculate the percentage change from the previous day's close
+                percentageChange = ((latestClose - previousDayClose) / previousDayClose * 100).toFixed(2);
+            } else {
+                percentageChange = "N/A"; // Handle the case where there isn't enough data
+                latestClose = "N/A";
+            }
+        }
+
+        // Set the color based on positive or negative percentage change
+        const changeColor = percentageChange >= 0 ? 'text-green-500' : 'text-red-500';
+
+        // Update stock information display (This remains consistent)
+        document.getElementById('stock-info').innerHTML = `
+            ${stockSymbol} - ₹${latestClose} <span class="${changeColor}">(${percentageChange}%)</span>
+        `;
+
+        // Now process the data for the selected timeframe
+        const candles = data[timeframe]?.data?.candles || [];
+        const ohlc = [], volume = [];
+        const dataLength = candles.length;
 
         for (let i = 0; i < dataLength; i += 1) {
             let timestamp;
 
             if (timeframe === 'day') {
+                // Parse timestamp for daily data (yyyy-mm-dd)
                 timestamp = Date.parse(candles[i][0].split('T')[0]);
             } else {
+                // Parse timestamp for 30-minute data
                 timestamp = Date.parse(candles[i][0]);
 
                 const date = new Date(timestamp);
@@ -57,18 +67,19 @@
 
             ohlc.push([
                 timestamp,
-                candles[i][1],
-                candles[i][2],
-                candles[i][3],
-                candles[i][4]
+                candles[i][1], // Open
+                candles[i][2], // High
+                candles[i][3], // Low
+                candles[i][4]  // Close
             ]);
 
             volume.push([
                 timestamp,
-                candles[i][5]
+                candles[i][5] // Volume
             ]);
         }
 
+        // Ensure sorted data for the chart
         ohlc.sort((a, b) => a[0] - b[0]);
         volume.sort((a, b) => a[0] - b[0]);
 
@@ -112,7 +123,7 @@
             yAxis: [{
                 height: '60%',
                 labels: {
-                    align: 'left', // Align labels to the left to give more space
+                    align: 'left',
                     x: -3
                 }
             }, {
@@ -138,15 +149,15 @@
                 name: 'Volume',
                 data: volume,
                 yAxis: 1
-            },  {
+            }, {
                 type: 'macd',
                 id: 'macd',
                 linkedTo: 'stock',
                 yAxis: 2,
-                lineWidth: 1.5, // Adjust this value to make the MACD line thinner
+                lineWidth: 1.5,
                 macdLine: {
                     styles: {
-                        lineWidth: 1.5 // This controls the thickness of the MACD line (red line)
+                        lineWidth: 1.5
                     }
                 }
             }]
@@ -200,10 +211,10 @@
 })();
 
 // Search functionality for filtering stocks in the sidebar
-document.getElementById('stock-search').addEventListener('input', function() {
+document.getElementById('stock-search').addEventListener('input', function () {
     const searchValue = this.value.toLowerCase();
     const stockItems = document.querySelectorAll('.stock-item');
-    
+
     stockItems.forEach(item => {
         const stockName = item.textContent.toLowerCase();
         if (stockName.includes(searchValue)) {

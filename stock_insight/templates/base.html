@@ -1,32 +1,32 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- <link rel="stylesheet" href="{% static '\css\styles.css' %}"> -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/forms@0.5.7/src/index.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/preline@2.0.3/dist/preline.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="https://code.highcharts.com/stock/highstock.js"></script>
+  <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+  <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+  <script src="https://code.highcharts.com/stock/indicators/indicators.js"></script>
+  <script src="https://code.highcharts.com/stock/indicators/macd.js"></script>
+  <script src="https://code.highcharts.com/modules/exporting.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-      
-  {% block scripts %}
-  
-  {% endblock scripts %}
-
-  
   <title>Stock Insight</title>
 </head>
 
 <body class="bg-gray-50 text-gray-900">
   <header class="bg-gradient-to-r from-white via-blue-100 to-blue-200 text-blue-800 shadow-lg">
-    <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
-      
+    <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center justify-between">
+
       <!-- Logo -->
       <a class="flex title-font font-medium items-center text-blue-800 mb-4 md:mb-0" href="{% url 'home' %}">
         <img src="{% static 'imgs/logo.png' %}" class="w-12 h-12 rounded-full">
@@ -39,76 +39,46 @@
       </button>
 
       <!-- Navbar Links -->
-      <nav id="navbar" class="hidden md:flex md:ml-auto md:mr-auto flex-wrap items-center text-base justify-center space-x-8">
-        <a class="hover:bg-blue-100 px-3 py-2 rounded transition duration-300 ease-in-out" href="{% url 'home' %}">Home</a>
-        <a class="hover:bg-blue-100 px-3 py-2 rounded transition duration-300 ease-in-out" href="{% url 'real_time_charts' %}">Real-Time Charts</a>
+      <nav id="navbar" class="hidden md:flex md:ml-auto flex-wrap items-center text-base justify-center space-x-8">
+        <a class="hover:bg-blue-100 px-3 py-2 rounded transition duration-300 ease-in-out"
+          href="{% url 'home' %}">Home</a>
+        <a class="hover:bg-blue-100 px-3 py-2 rounded transition duration-300 ease-in-out"
+          href="{% url 'real_time_charts' %}">Real-Time Charts</a>
         <a class="hover:bg-blue-100 px-3 py-2 rounded transition duration-300 ease-in-out" href="#">Recommendations</a>
         <a class="hover:bg-blue-100 px-3 py-2 rounded transition duration-300 ease-in-out" href="#">Premium Alerts</a>
         <a class="hover:bg-blue-100 px-3 py-2 rounded transition duration-300 ease-in-out" href="{% url 'market_today' %}">Market Today</a>
       </nav>
 
       <!-- My Account Button -->
-      <a href="{% url 'profile' %}" class="hidden md:inline-flex items-center bg-blue-600 text-white border-0 py-2 px-4 focus:outline-none hover:bg-blue-700 rounded-lg text-base mt-4 md:mt-0 transition duration-300 ease-in-out">My Account</a>
+      <a href="{% url 'profile' %}"
+        class="hidden md:inline-flex items-center bg-blue-600 text-white border-0 py-2 px-4 focus:outline-none hover:bg-blue-700 rounded-lg text-base mt-4 md:mt-0 transition duration-300 ease-in-out">My
+        Account</a>
     </div>
 
     <!-- Mobile Dropdown Menu -->
     <div id="mobile-menu" class="hidden md:hidden bg-blue-100 text-blue-800">
       <nav class="flex flex-col space-y-2 p-4">
-        <a class="hover:bg-blue-200 px-3 py-2 rounded transition duration-300 ease-in-out" href="{% url 'home' %}">Home</a>
-        <a class="hover:bg-blue-200 px-3 py-2 rounded transition duration-300 ease-in-out" href="{% url 'real_time_charts' %}">Real-Time Charts</a>
+        <a class="hover:bg-blue-200 px-3 py-2 rounded transition duration-300 ease-in-out"
+          href="{% url 'home' %}">Home</a>
+        <a class="hover:bg-blue-200 px-3 py-2 rounded transition duration-300 ease-in-out"
+          href="{% url 'real_time_charts' %}">Real-Time Charts</a>
         <a class="hover:bg-blue-200 px-3 py-2 rounded transition duration-300 ease-in-out" href="#">Recommendations</a>
         <a class="hover:bg-blue-200 px-3 py-2 rounded transition duration-300 ease-in-out" href="#">Premium Alerts</a>
+<<<<<<< HEAD
+        <a class="hover:bg-blue-200 px-3 py-2 rounded transition duration-300 ease-in-out" href="#">Profile</a>
+        <a href="{% url 'profile' %}"
+          class="inline-flex items-center bg-blue-600 text-white border-0 py-2 px-4 focus:outline-none hover:bg-blue-700 rounded-lg text-base mt-2 transition duration-300 ease-in-out">My
+          Account</a>
+=======
         <a class="hover:bg-blue-200 px-3 py-2 rounded transition duration-300 ease-in-out" href="{% url 'market_today' %}">Market Today</a>
         <a href="{% url 'profile' %}" class="inline-flex items-center bg-blue-600 text-white border-0 py-2 px-4 focus:outline-none hover:bg-blue-700 rounded-lg text-base mt-2 transition duration-300 ease-in-out">My Account</a>
+>>>>>>> 2bfaadc9da2e8799bce2f2eb428f5acedc7cf2ef
       </nav>
     </div>
   </header>
 
   {% block content %}
   {% endblock content %}
-
-  <!-- <footer class="bg-gradient-to-r from-blue-200 via-blue-100 to-white text-blue-800 border-t border-gray-200 mt-8">
-    <div class="container px-5 py-8 mx-auto flex items-center sm:flex-row flex-col">
-      <a class="flex title-font font-medium items-center md:justify-start justify-center text-blue-800">
-        <img src="{% static 'imgs/logo.png' %}" class="w-10 h-10 rounded-full">
-        <span class="ml-3 text-xl">Stock Insight</span>
-      </a>
-      <p class="text-sm text-blue-600 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-blue-200 sm:py-2 sm:mt-0 mt-4">© 2024 Stock Insight —
-        <a href="#" class="text-blue-600 ml-1" rel="noopener noreferrer" target="_blank">@StockInsight</a>
-      </p>
-      <span class="inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start">
-        <a class="text-blue-600 hover:text-blue-800">
-          <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5"
-            viewBox="0 0 24 24">
-            <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
-          </svg>
-        </a>
-        <a class="ml-3 text-blue-600 hover:text-blue-800">
-          <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5"
-            viewBox="0 0 24 24">
-            <path
-              d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z">
-            </path>
-          </svg>
-        </a>
-        <a class="ml-3 text-blue-600 hover:text-blue-800">
-          <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            class="w-5 h-5" viewBox="0 0 24 24">
-            <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
-            <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01"></path>
-          </svg>
-        </a>
-        <a class="ml-3 text-blue-600 hover:text-blue-800">
-          <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-            stroke-width="0" class="w-5 h-5" viewBox="0 0 24 24">
-            <path stroke="none"
-              d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2H9a2 2 0 00-2 2v7H3v-7a6 6 0 016-6h7z">
-            </path>
-          </svg>
-        </a>
-      </span>
-    </div>
-  </footer> -->
 
   <script>
     document.getElementById("menu-toggle").addEventListener("click", function () {
