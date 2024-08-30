@@ -10,3 +10,6 @@ def profile(request):
 def premium_alerts(request):
     return render(request,'premium_alerts.html')
 
+def market_today(request):
+    return render(request,'market_today.html')
+
