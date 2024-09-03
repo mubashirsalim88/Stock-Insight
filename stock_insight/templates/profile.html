@@ -12,8 +12,8 @@
                          src="{% static 'imgs/user-profile.jpg' %}"
                          alt="User profile picture">
                 </div>
-                <h1 class="text-gray-900 font-bold text-xl leading-8 my-1">John Doe</h1>
-                <h3 class="text-gray-600 font-lg text-semibold leading-6">Stock Enthusiast & Developer</h3>
+                <h1 class="text-gray-900 font-bold text-xl leading-8 my-1">{{ user.first_name }} {{ user.last_name }}</h1>
+                <h3 class="text-gray-600 font-lg text-semibold leading-6">{{ user.profile.bio|default:"Stock Enthusiast & Developer" }}</h3>
                 <p class="text-sm text-gray-500 hover:text-gray-600 leading-6">
                     Passionate about stocks, trading algorithms, and web development. Always looking for new challenges and opportunities.
                 </p>
@@ -24,7 +24,7 @@
                     </li>
                     <li class="flex items-center py-3">
                         <span>Member since</span>
-                        <span class="ml-auto">Nov 12, 2023</span>
+                        <span class="ml-auto">{{ user.date_joined|date:"F d, Y" }}</span>
                     </li>
                 </ul>
             </div>
@@ -44,29 +44,29 @@
                     <div class="grid md:grid-cols-2 text-sm">
                         <div class="grid grid-cols-2">
                             <div class="px-4 py-2 font-semibold">First Name</div>
-                            <div class="px-4 py-2">John</div>
+                            <div class="px-4 py-2">{{ user.first_name }}</div>
                         </div>
                         <div class="grid grid-cols-2">
                             <div class="px-4 py-2 font-semibold">Last Name</div>
-                            <div class="px-4 py-2">Doe</div>
+                            <div class="px-4 py-2">{{ user.last_name }}</div>
                         </div>
                         <div class="grid grid-cols-2">
                             <div class="px-4 py-2 font-semibold">Gender</div>
-                            <div class="px-4 py-2">Male</div>
+                            <div class="px-4 py-2">{{ user.profile.gender }}</div>
                         </div>
                         <div class="grid grid-cols-2">
                             <div class="px-4 py-2 font-semibold">Contact No.</div>
-                            <div class="px-4 py-2">+91 9876543210</div>
+                            <div class="px-4 py-2">{{ user.profile.phone_number }}</div>
                         </div>
                         <div class="grid grid-cols-2">
                             <div class="px-4 py-2 font-semibold">Email</div>
                             <div class="px-4 py-2">
-                                <a class="text-indigo-600" href="mailto:john@example.com">john@example.com</a>
+                                <a class="text-indigo-600" href="mailto:{{ user.email }}">{{ user.email }}</a>
                             </div>
                         </div>
                         <div class="grid grid-cols-2">
-                            <div class="px-4 py-2 font-semibold">Location</div>
-                            <div class="px-4 py-2">Pune, India</div>
+                            <div class="px-4 py-2 font-semibold">Date of Birth</div>
+                            <div class="px-4 py-2">{{ user.profile.dob|date:"F d, Y" }}</div>
                         </div>
                     </div>
                 </div>
