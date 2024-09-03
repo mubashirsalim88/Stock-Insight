@@ -15,7 +15,6 @@
   <script src="https://code.highcharts.com/modules/accessibility.js"></script>
   <script src="https://code.highcharts.com/stock/indicators/indicators.js"></script>
   <script src="https://code.highcharts.com/stock/indicators/macd.js"></script>
-  <script src="https://code.highcharts.com/modules/exporting.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -45,35 +44,36 @@
         <a class="hover:bg-blue-100 px-3 py-2 rounded transition duration-300 ease-in-out"
           href="{% url 'real_time_charts' %}">Real-Time Charts</a>
         <a class="hover:bg-blue-100 px-3 py-2 rounded transition duration-300 ease-in-out" href="#">Recommendations</a>
-        <a class="hover:bg-blue-100 px-3 py-2 rounded transition duration-300 ease-in-out" href="#">Premium Alerts</a>
-        <a class="hover:bg-blue-100 px-3 py-2 rounded transition duration-300 ease-in-out" href="{% url 'market_today' %}">Market Today</a>
+        {% if user.is_authenticated %}
+          {% if user.profile.is_premium %}
+            <a class="hover:bg-blue-100 px-3 py-2 rounded transition duration-300 ease-in-out" href="#">Premium Alerts</a>
+          {% endif %}
+          <a href="{% url 'profile' %}" class="inline-flex items-center bg-blue-600 text-white border-0 py-2 px-4 focus:outline-none hover:bg-blue-700 rounded-lg text-base mt-4 md:mt-0 transition duration-300 ease-in-out">My Account</a>
+          <a href="{% url 'logout' %}" class="inline-flex items-center bg-red-600 text-white border-0 py-2 px-4 focus:outline-none hover:bg-red-700 rounded-lg text-base mt-4 md:mt-0 transition duration-300 ease-in-out">Logout</a>
+        {% else %}
+          <a href="{% url 'login' %}" class="inline-flex items-center bg-blue-600 text-white border-0 py-2 px-4 focus:outline-none hover:bg-blue-700 rounded-lg text-base mt-4 md:mt-0 transition duration-300 ease-in-out">Login</a>
+          <a href="{% url 'register' %}" class="inline-flex items-center bg-blue-600 text-white border-0 py-2 px-4 focus:outline-none hover:bg-blue-700 rounded-lg text-base mt-4 md:mt-0 transition duration-300 ease-in-out">Register</a>
+        {% endif %}
       </nav>
 
-      <!-- My Account Button -->
-      <a href="{% url 'profile' %}"
-        class="hidden md:inline-flex items-center bg-blue-600 text-white border-0 py-2 px-4 focus:outline-none hover:bg-blue-700 rounded-lg text-base mt-4 md:mt-0 transition duration-300 ease-in-out">My
-        Account</a>
-    </div>
-
-    <!-- Mobile Dropdown Menu -->
-    <div id="mobile-menu" class="hidden md:hidden bg-blue-100 text-blue-800">
-      <nav class="flex flex-col space-y-2 p-4">
-        <a class="hover:bg-blue-200 px-3 py-2 rounded transition duration-300 ease-in-out"
-          href="{% url 'home' %}">Home</a>
-        <a class="hover:bg-blue-200 px-3 py-2 rounded transition duration-300 ease-in-out"
-          href="{% url 'real_time_charts' %}">Real-Time Charts</a>
-        <a class="hover:bg-blue-200 px-3 py-2 rounded transition duration-300 ease-in-out" href="#">Recommendations</a>
-        <a class="hover:bg-blue-200 px-3 py-2 rounded transition duration-300 ease-in-out" href="#">Premium Alerts</a>
-<<<<<<< HEAD
-        <a class="hover:bg-blue-200 px-3 py-2 rounded transition duration-300 ease-in-out" href="#">Profile</a>
-        <a href="{% url 'profile' %}"
-          class="inline-flex items-center bg-blue-600 text-white border-0 py-2 px-4 focus:outline-none hover:bg-blue-700 rounded-lg text-base mt-2 transition duration-300 ease-in-out">My
-          Account</a>
-=======
-        <a class="hover:bg-blue-200 px-3 py-2 rounded transition duration-300 ease-in-out" href="{% url 'market_today' %}">Market Today</a>
-        <a href="{% url 'profile' %}" class="inline-flex items-center bg-blue-600 text-white border-0 py-2 px-4 focus:outline-none hover:bg-blue-700 rounded-lg text-base mt-2 transition duration-300 ease-in-out">My Account</a>
->>>>>>> 2bfaadc9da2e8799bce2f2eb428f5acedc7cf2ef
-      </nav>
+      <!-- Mobile Dropdown Menu -->
+      <div id="mobile-menu" class="hidden md:hidden bg-blue-100 text-blue-800">
+        <nav class="flex flex-col space-y-2 p-4">
+          <a class="hover:bg-blue-200 px-3 py-2 rounded transition duration-300 ease-in-out" href="{% url 'home' %}">Home</a>
+          <a class="hover:bg-blue-200 px-3 py-2 rounded transition duration-300 ease-in-out" href="{% url 'real_time_charts' %}">Real-Time Charts</a>
+          <a class="hover:bg-blue-200 px-3 py-2 rounded transition duration-300 ease-in-out" href="#">Recommendations</a>
+          {% if user.is_authenticated %}
+            {% if user.profile.is_premium %}
+              <a class="hover:bg-blue-200 px-3 py-2 rounded transition duration-300 ease-in-out" href="#">Premium Alerts</a>
+            {% endif %}
+            <a href="{% url 'profile' %}" class="inline-flex items-center bg-blue-600 text-white border-0 py-2 px-4 focus:outline-none hover:bg-blue-700 rounded-lg text-base mt-2 transition duration-300 ease-in-out">My Account</a>
+            <a href="{% url 'logout' %}" class="inline-flex items-center bg-red-600 text-white border-0 py-2 px-4 focus:outline-none hover:bg-red-700 rounded-lg text-base mt-2 transition duration-300 ease-in-out">Logout</a>
+          {% else %}
+            <a href="{% url 'login' %}" class="inline-flex items-center bg-blue-600 text-white border-0 py-2 px-4 focus:outline-none hover:bg-blue-700 rounded-lg text-base mt-2 transition duration-300 ease-in-out">Login</a>
+            <a href="{% url 'register' %}" class="inline-flex items-center bg-blue-600 text-white border-0 py-2 px-4 focus:outline-none hover:bg-blue-700 rounded-lg text-base mt-2 transition duration-300 ease-in-out">Register</a>
+          {% endif %}
+        </nav>
+      </div>
     </div>
   </header>
 
