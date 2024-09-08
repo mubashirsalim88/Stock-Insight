@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    .container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 30px;
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        border: 1px solid #e3e4e8;
+    }
+
+    h1 {
+        text-align: center;
+        color: #333333;
+        font-family: 'Helvetica Neue', sans-serif;
+        font-size: 2.5em;
+        margin-bottom: 20px;
+    }
+
+    form {
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+    label {
+        font-size: 1.3em;
+        color: #555555;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    select {
+        width: 60%;
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid #d0d0d0;
+        font-size: 1.2em;
+        color: #555555;
+        background-color: #f9f9f9;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+
+    input[type="submit"] {
+        background-color: #28a745;
+        color: white;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.2em;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #218838;
+        transform: scale(1.05);
+    }
+
+    table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        margin-top: 20px;
+        background-color: #ffffff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    th, td {
+        padding: 15px;
+        text-align: center;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    th {
+        background-color: #007bff; /* Blue background for column headers */
+        color: white;
+        font-weight: bold;
+    }
+
+    td {
+        background-color: #ffffff;
+        color: #333333;
+    }
+
+    td.recommendation-buy {
+        color: #28a745;
+        font-weight: bold;
+    }
+
+    td.recommendation-sell {
+        color: #dc3545;
+        font-weight: bold;
+    }
+
+    td.recommendation-hold {
+        color: #ffc107;
+        font-weight: bold;
+    }
+
+    tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    h3 {
+        text-align: center;
+        color: #333333;
+        font-family: 'Helvetica Neue', sans-serif;
+        font-size: 1.8em;
+        margin-top: 30px;
+    }
+
+    p {
+        text-align: center;
+        color: #666666;
+        font-size: 1.2em;
+    }
+</style>
+
+<div class="container">
+    <h1>Stock Recommendations</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <label>Select your investment horizon:</label>
+        <select name="horizon">
+            <option value="Short-term" {% if horizon == 'Short-term' %}selected{% endif %}>Short-term (Up to 2 years)</option>
+            <option value="Medium-term" {% if horizon == 'Medium-term' %}selected{% endif %}>Medium-term (2-5 years)</option>
+            <option value="Long-term" {% if horizon == 'Long-term' %}selected{% endif %}>Long-term (More than 5 years)</option>
+        </select>
+        <br><br>
+        <input type="submit" value="Get Recommendations">
+    </form>
+
+    {% if recommendations %}
+        <h3>Recommendations for {{ horizon }} investment horizon:</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Stock</th>
+                    <th>Recommendation</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for rec in recommendations %}
+                    <tr>
+                        <td>{{ rec.Stock }}</td>
+                        <td class="{% if rec.Recommendation == 'Buy' %}recommendation-buy{% elif rec.Recommendation == 'Sell' %}recommendation-sell{% elif rec.Recommendation == 'Hold' %}recommendation-hold{% endif %}">
+                            {{ rec.Recommendation }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No recommendations available. Please select an investment horizon and submit the form.</p>
+    {% endif %}
+</div>
+{% endblock %}
