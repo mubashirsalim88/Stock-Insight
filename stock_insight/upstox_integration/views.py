@@ -101,3 +101,112 @@ def upstox_callback(request):
             return HttpResponse(f"Error during token exchange: {error_message}")
     else:
         return HttpResponse("Authorization failed: No authorization code provided.")
+    
+
+
+import os
+import pickle
+import yfinance as yf
+import pandas as pd
+from django.shortcuts import render
+from django.conf import settings
+
+# Load the pre-trained model from the file
+def load_model():
+    # Get the correct path to the model using BASE_DIR
+    model_path = os.path.join(settings.BASE_DIR, 'stock_insight', 'ml_models', 'stock_recommendation_model.pkl')
+    
+    # Check if the file exists
+    if not os.path.exists(model_path):
+        raise FileNotFoundError(f"Model file not found: {model_path}")
+    
+    with open(model_path, 'rb') as file:
+        model = pickle.load(file)
+    
+    return model
+
+# Function to fetch stock data using yfinance
+def get_stock_data(stock):
+    ticker = yf.Ticker(stock)
+    info = ticker.info
+
+    # Extract relevant features
+    eps = info.get("trailingEps", None)
+    pe_ratio = info.get("trailingPE", None)
+    dividend_yield = info.get("dividendYield", None)
+    pb_ratio = info.get("priceToBook", None)
+    debt_equity_ratio = info.get("debtToEquity", None)
+    
+    print(f"Fetching data for {stock}:")
+    print(f"EPS: {eps}, PE Ratio: {pe_ratio}, Dividend Yield: {dividend_yield}, P/B Ratio: {pb_ratio}, Debt/Equity Ratio: {debt_equity_ratio}")
+    
+    return {
+        "Stock": stock,
+        "EPS": eps,
+        "P/E Ratio": pe_ratio,
+        "Dividend Yield": dividend_yield,
+        "P/B Ratio": pb_ratio,
+        "Debt/Equity Ratio": debt_equity_ratio
+    }
+
+# Function to classify stocks based on investment horizon
+def classify_stock(row, horizon):
+    if horizon == 'Short-term':
+        if row['Debt/Equity Ratio'] < 0.5 and row['P/E Ratio'] < 15:
+            return 'Buy'
+        elif row['Debt/Equity Ratio'] > 1.0 or row['P/E Ratio'] > 30:
+            return 'Sell'
+        else:
+            return 'Hold'
+    elif horizon == 'Medium-term':
+        if 10 <= row['P/E Ratio'] <= 25 and row['EPS'] > 5:
+            return 'Buy'
+        elif row['P/E Ratio'] > 30 or row['EPS'] < 1:
+            return 'Sell'
+        else:
+            return 'Hold'
+    elif horizon == 'Long-term':
+        if row['Dividend Yield'] > 0.02 and row['EPS'] > 5:
+            return 'Buy'
+        elif row['Dividend Yield'] is None or row['EPS'] < 2:
+            return 'Sell'
+        else:
+            return 'Hold'
+    return 'Hold'
+
+# Function to handle the stock recommendation view
+def recommendations(request):
+    recommendations = None
+    horizon = None
+    stocks = ["HINDUNILVR.NS", "ITC.NS", "KOTAKBANK.NS", "SBIN.NS", "BHARTIARTL.NS", "ASIANPAINT.NS", 
+              "MARUTI.NS", "LT.NS", "AXISBANK.NS", "SUNPHARMA.NS", "WIPRO.NS", "BAJFINANCE.NS", 
+              "M&M.NS", "HCLTECH.NS", "ULTRACEMCO.NS", "TECHM.NS", "TITAN.NS", "HEROMOTOCO.NS", 
+              "DRREDDY.NS", "POWERGRID.NS", "TATAMOTORS.NS", "NTPC.NS", "ONGC.NS"]
+
+    if request.method == "POST":
+        horizon = request.POST.get('horizon')
+
+        # Fetch stock data
+        data = [get_stock_data(stock) for stock in stocks]
+        df = pd.DataFrame(data)
+        df = df.dropna()  # Remove rows with missing data
+
+        # Load the model
+        model = load_model()
+
+        # Define the features for prediction
+        X = df[['EPS', 'P/E Ratio', 'Dividend Yield', 'P/B Ratio', 'Debt/Equity Ratio']]
+        
+        # Mock labels for the sake of classification
+        y = [classify_stock(row, horizon) for _, row in df.iterrows()]
+
+        # Apply recommendations
+        df['Recommendation'] = y
+
+        # Convert recommendations to a dictionary for rendering
+        recommendations = df[['Stock', 'EPS', 'P/E Ratio', 'Dividend Yield', 'P/B Ratio', 'Debt/Equity Ratio', 'Recommendation']].to_dict('records')
+
+    return render(request, 'stock_recommendation.html', {
+        'recommendations': recommendations,
+        'horizon': horizon,
+    })
