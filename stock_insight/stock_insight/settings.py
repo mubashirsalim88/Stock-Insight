@@ -137,3 +137,9 @@ UPSTOX_API_SECRET = os.getenv('UPSTOX_API_SECRET')
 UPSTOX_REDIRECT_URI = os.getenv('UPSTOX_REDIRECT_URI')
 
 AUTH_USER_MODEL = 'upstox_integration.CustomUser'
+import os
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+import os
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

@@ -82,3 +82,4 @@ def logout(request):
     auth_logout(request)
     return redirect('home')
 
+    return render(request,'premium_alerts.html')

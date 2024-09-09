@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto p-6 max-w-4xl">
+    <h1 class="text-3xl font-bold mb-6">Stock Recommendations</h1>
+
+    <!-- Horizon Selection Form -->
+    <form method="POST" class="bg-white p-6 rounded-lg shadow-lg">
+        {% csrf_token %}
+        <label for="horizon" class="block text-lg font-medium text-gray-700 mb-4">Select your investment horizon:</label>
+        <select name="horizon" id="horizon" class="form-select block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-150 ease-in-out mb-6">
+            <option value="Short-term" {% if horizon == 'Short-term' %}selected{% endif %}>Short-term (Up to 2 years)</option>
+            <option value="Medium-term" {% if horizon == 'Medium-term' %}selected{% endif %}>Medium-term (2-5 years)</option>
+            <option value="Long-term" {% if horizon == 'Long-term' %}selected{% endif %}>Long-term (More than 5 years)</option>
+        </select>
+        <input type="submit" value="Get Recommendations" class="bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition duration-300 cursor-pointer">
+    </form>
+
+    <!-- Recommendations Table -->
+    {% if recommendations %}
+        <h3 class="text-2xl font-semibold mt-8">Recommendations for {{ horizon }} investment horizon:</h3>
+        <table class="min-w-full mt-4 bg-white border border-gray-200 shadow-md rounded-lg overflow-hidden">
+            <thead class="bg-gray-100 border-b border-gray-200">
+                <tr>
+                    <th class="px-6 py-3 text-left text-sm font-medium text-gray-600">Stock</th>
+                    <th class="px-6 py-3 text-left text-sm font-medium text-gray-600">Recommendation</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for rec in recommendations %}
+                    <tr class="border-b border-gray-200 hover:bg-gray-50 transition duration-150 ease-in-out">
+                        <td class="px-6 py-4 text-sm text-gray-800">{{ rec.Stock }}</td>
+                        <td class="px-6 py-4 text-sm {% if rec.Recommendation == 'Buy' %}text-green-600{% elif rec.Recommendation == 'Sell' %}text-red-600{% elif rec.Recommendation == 'Hold' %}text-yellow-600{% endif %}">
+                            {{ rec.Recommendation }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="mt-4 text-gray-600">No recommendations available. Please select an investment horizon and submit the form.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -5,11 +5,14 @@ from django.urls import path
 from main import views as main_views  # Import views from the correct app
 from upstox_integration import views as upstox_views
 
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', main_views.home, name='home'),  # Main app home view
     path('profile/', main_views.profile, name='profile'),  # Main app profile view
     path('market_today/', main_views.market_today, name='market_today'),  # Main app market_today view
+    path('recommendations/', upstox_views.recommendations, name='recommendations'),  # Main app market_today view
     path('real-time-charts/', upstox_views.real_time_charts, name='real_time_charts'),  # Upstox integration view
     path('upstox/authorize/', upstox_views.upstox_authorize, name='upstox_authorize'),  # Upstox integration view
     path('upstox/callback/', upstox_views.upstox_callback, name='upstox_callback'),  # Upstox integration view
