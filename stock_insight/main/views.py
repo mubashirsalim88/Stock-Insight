@@ -8,7 +8,35 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from upstox_integration.models import Profile
 from django.contrib.auth import logout as auth_logout
+from .models import UserActivity
+from django.contrib.auth.decorators import login_required
+from datetime import datetime
 
+@login_required
+def search_stock(request):
+    if request.method == "GET":
+        search_query = request.GET.get('q')  # Stock symbol entered by the user
+        if search_query:
+            # Log the search activity
+            UserActivity.objects.create(
+                user=request.user,
+                action='search',
+                stock_symbol=search_query
+            )
+            # Perform the actual search logic...
+        return render(request, 'search_results.html', {'query': search_query})
+
+@login_required
+def view_stock(request, stock_symbol):
+    # Log the view activity
+    UserActivity.objects.create(
+        user=request.user,
+        action='view',
+        stock_symbol=stock_symbol
+    )
+    
+    # Fetch stock details and render the template
+    return render(request, 'stock_detail.html', {'stock_symbol': stock_symbol})
 
 def home(request):
     return render(request, 'home.html')
@@ -27,14 +55,15 @@ User = get_user_model()
 @csrf_exempt
 def register(request):
     if request.method == 'POST':
-        first_name = request.POST['first_name']
-        last_name = request.POST['last_name']
-        email = request.POST['email']
-        password = request.POST['password']
-        phone_number = request.POST['phone_number']
-        dob = request.POST['dob']
-        gender = request.POST['gender']
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        phone_number = request.POST.get('phone_number')
+        dob = request.POST.get('dob')  # Ensure this line retrieves the dob field
+        gender = request.POST.get('gender')
 
+        # Check if user already exists
         if User.objects.filter(username=email).exists():
             messages.error(request, "Username already taken. Please choose a different one.")
             return render(request, 'register.html')
@@ -49,19 +78,20 @@ def register(request):
             first_name=first_name, last_name=last_name
         )
 
-        # Create the profile only if it doesn't exist
-        Profile.objects.get_or_create(user=user, defaults={
-            'phone_number': phone_number,
-            'dob': dob,
-            'gender': gender
-        })
+        # Convert dob string to date format
+        dob = datetime.strptime(dob, '%Y-%m-%d').date()  # Convert to date object
+
+        # Check if the profile already exists and create or update it
+        profile, created = Profile.objects.get_or_create(user=user)
+        profile.phone_number = phone_number
+        profile.dob = dob
+        profile.gender = gender
+        profile.save()
 
         messages.success(request, "Registration successful. You can now log in.")
         return redirect('login')
 
     return render(request, 'register.html')
-
-
 
 @csrf_exempt
 def login(request):
@@ -76,10 +106,6 @@ def login(request):
             return render(request, 'login.html', {'error': 'Invalid credentials'})
     return render(request, 'login.html')
 
-
-
 def logout(request):
     auth_logout(request)
     return redirect('home')
-
-    return render(request,'premium_alerts.html')

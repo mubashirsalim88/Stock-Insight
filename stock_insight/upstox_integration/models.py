@@ -1,8 +1,8 @@
-# upstox_integration/models.py
-
 from django.db import models
 from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.conf import settings
+from django.contrib.auth.models import User
+
 
 class CustomUser(AbstractUser):
     groups = models.ManyToManyField(
@@ -19,17 +19,15 @@ class CustomUser(AbstractUser):
         help_text='Specific permissions for this user.',
         related_query_name='customuser',
     )
-    # You can add additional fields here if needed
+
+
 
 class Profile(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    phone_number = models.CharField(max_length=15)
-    dob = models.DateField(default='2000-01-01')  # Example default value
-    gender = models.CharField(max_length=10)
-    is_premium = models.BooleanField(default=False)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)  # Updated reference
+    dob = models.DateField(null=True, blank=True)
+    phone_number = models.CharField(max_length=15, null=True, blank=True)
+    gender = models.CharField(max_length=10, null=True, blank=True)
 
-    def __str__(self):
-        return self.user.username
 
 class UpstoxToken(models.Model):
     access_token = models.CharField(max_length=255)
