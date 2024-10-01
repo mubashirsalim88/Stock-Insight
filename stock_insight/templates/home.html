@@ -1,59 +1,78 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<section class="bg-indigo-900 text-white py-20">
+<!-- Hero Section -->
+<section class="bg-gradient-to-r from-indigo-900 via-purple-900 to-pink-700 text-white py-20">
   <div class="container mx-auto text-center">
-    <h1 id="welcome-message" class="text-5xl font-bold mb-4"></h1>
-    <p class="text-xl mb-8">Your go-to platform for real-time stock recommendations and alerts.</p>
-    <a href="#" class="bg-yellow-400 text-indigo-900 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-yellow-300">
-      Get Started
+    <h1 id="welcome-message" class="text-6xl font-extrabold mb-4">Invest Smarter. Trade Better.</h1>
+    <p class="text-2xl mb-8">Join <span class="text-yellow-400">Stock Insight</span> for real-time data and expert recommendations.</p>
+    <a href="{% url 'register' %}" class="bg-yellow-400 text-indigo-900 font-bold py-4 px-10 rounded-full shadow-lg hover:bg-yellow-300 transition-all duration-300">
+      Sign Up Now – Free for 7 Days
     </a>
+    <p class="mt-4 text-sm">No credit card required</p>
   </div>
 </section>
 
-<section class="py-20">
+<!-- Feature Section -->
+<section class="py-16 bg-gray-50">
   <div class="container mx-auto text-center">
-    <h2 class="text-3xl font-bold mb-10">Features</h2>
+    <h2 class="text-4xl font-bold mb-10 text-indigo-900">Why Choose Stock Insight?</h2>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
       <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
         <div class="text-indigo-900 mb-4">
-          <i class="fas fa-chart-line text-5xl"></i>
+          <i class="fas fa-chart-line text-6xl"></i>
         </div>
         <h3 class="text-2xl font-semibold mb-4">Real-Time Charts</h3>
-        <p class="text-gray-700">View live stock charts with technical indicators to help you make informed decisions.</p>
+        <p class="text-gray-700">Live stock charts with cutting-edge technical analysis tools to help you trade smarter.</p>
       </div>
       <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
         <div class="text-indigo-900 mb-4">
-          <i class="fas fa-bullseye text-5xl"></i>
+          <i class="fas fa-rocket text-6xl"></i>
         </div>
-        <h3 class="text-2xl font-semibold mb-4">Portfolio</h3>
-        <p class="text-gray-700">Access expertly curated stock picks driven by cutting-edge technical analysis and market trends.</p>
+        <h3 class="text-2xl font-semibold mb-4">Instant Recommendations</h3>
+        <p class="text-gray-700">Get expert-curated stock picks and personalized alerts straight to your inbox.</p>
       </div>
       <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
         <div class="text-indigo-900 mb-4">
-          <i class="fas fa-bell text-5xl"></i>
+          <i class="fas fa-bell text-6xl"></i>
         </div>
-        <h3 class="text-2xl font-semibold mb-4">Recommendations</h3>
-        <p class="text-gray-700">Receive daily stock recommendations based on technical analysis and trends.</p>
-      </div>
-      <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
-        <div class="text-indigo-900 mb-4">
-          <i class="fas fa-bell text-5xl"></i>
-        </div>
-        <h3 class="text-2xl font-semibold mb-4">Premium Alerts</h3>
-        <p class="text-gray-700">Get premium alerts for optimal buy and sell opportunities to maximize your profits.</p>
+        <h3 class="text-2xl font-semibold mb-4">Smart Alerts</h3>
+        <p class="text-gray-700">Custom alerts for price movements, news, and insider activity – be the first to know!</p>
       </div>
     </div>
   </div>
 </section>
 
+<!-- Testimonials Section -->
+<section class="py-16 bg-gray-900 text-white">
+  <div class="container mx-auto text-center">
+    <h2 class="text-4xl font-bold mb-10">What Our Users Are Saying</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+      <div class="bg-gray-800 p-8 rounded-lg shadow-lg">
+        <p class="text-xl italic mb-4">"Stock Insight's real-time charts helped me make better decisions and improve my returns by 40%!"</p>
+        <p class="font-bold">- Harish, Trader</p>
+      </div>
+      <div class="bg-gray-800 p-8 rounded-lg shadow-lg">
+        <p class="text-xl italic mb-4">"The recommendations are spot on. I wouldn’t trade without Stock Insight now."</p>
+        <p class="font-bold">- Simran, Investor</p>
+      </div>
+      <div class="bg-gray-800 p-8 rounded-lg shadow-lg">
+        <p class="text-xl italic mb-4">"The alerts keep me ahead of the game. No more missing important stock movements."</p>
+        <p class="font-bold">- Anuj, Day Trader</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Call to Action Section -->
 <section class="bg-yellow-400 text-indigo-900 py-20">
   <div class="container mx-auto text-center">
-    <h2 class="text-4xl font-bold mb-4">Ready to Take Control of Your Investments?</h2>
-    <p class="text-xl mb-8">Join Stock Insight today and start making smarter investment decisions.</p>
-    <a href="#" class="bg-indigo-900 text-yellow-400 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-indigo-800">
-      Sign Up Now
+    <h2 class="text-5xl font-bold mb-4">Ready to Take Control of Your Investments?</h2>
+    <p class="text-xl mb-8">Join thousands of traders and start making smarter investment decisions today.</p>
+    <a href="{% url 'register' %}" class="bg-indigo-900 text-yellow-400 font-bold py-4 px-12 rounded-full shadow-lg hover:bg-indigo-800 transition-all duration-300">
+      Start Free Trial
     </a>
+    <p class="mt-4">*Cancel anytime within the first 7 days, no charges applied.</p>
   </div>
 </section>
 
