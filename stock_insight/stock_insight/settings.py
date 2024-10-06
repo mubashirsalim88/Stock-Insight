@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main',
-    'upstox_integration'
+    'upstox_integration',
+    'technical_analysis'
 ]
 
 MIDDLEWARE = [
