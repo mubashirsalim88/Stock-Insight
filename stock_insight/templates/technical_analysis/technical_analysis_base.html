@@ -1,0 +1,88 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Technical Analysis{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* Dark Theme */
+        body {
+            font-family: 'Arial', sans-serif;
+            position: relative;
+            overflow-x: hidden; /* Disable horizontal overflow */
+            overflow-y: auto; /* Ensure the body is scrollable vertically */
+            min-height: 100vh; /* Ensure the body takes full height */
+        }
+
+        /* Video Background */
+        .bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            min-width: 100%;
+            min-height: 100%;
+            z-index: -1;
+            object-fit: cover; /* Ensures the video covers the whole background */
+            opacity: 0.6; /* Adjust the transparency of the video */
+        }
+
+        /* Navbar and Footer Styling */
+        nav, footer {
+            background-color: #1f2937; /* Dark slate gray */
+            border-top: 2px solid #4a5568; /* Similar border as the navbar */
+        }
+
+        /* Glow Effect for Stock Market Vibe */
+        .glow {
+            color: #38a169; /* Neon green */
+            text-shadow: 0 0 8px #38a169;
+        }
+
+        /* Ensuring Content is above the video */
+        .content-container {
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Video -->
+    <video autoplay muted loop class="bg-video">
+        <source src="{% static 'video/bg1.mp4' %}" type="video/mp4">
+        Your browser does not support HTML5 video.
+    </video>
+
+    <!-- Navbar -->
+    <nav class="p-4 shadow-lg bg-gray-800 border-b-2 border-gray-600">
+        <div class="container mx-auto flex justify-between items-center">
+            <!-- Left Side: Title and Tagline -->
+            <div class="text-white font-bold text-2xl flex items-center">
+                <a href="{% url 'technical_analysis_landing' %}" class="hover:text-gray-300 nav-item">Technical Analysis</a>
+                <span class="tagline ml-4 text-sm font-normal text-gray-400">| Master the Art of Chart Patterns & Trends</span>
+            </div>
+
+            <!-- Right Side: Quote -->
+            <div class="text-gray-300 text-sm italic">
+                "Technical analysis is a way of looking at the market through charts and price action." 
+            </div>
+        </div>
+    </nav>
+
+    <!-- Content -->
+    <div class="container mx-auto py-8 content-container">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <!-- Footer -->
+    <footer class="p-4 mt-8 bg-gray-800 border-t-2 border-gray-600">
+        <div class="container mx-auto text-center">
+            <a href="{% url 'home' %}" class="accent-button text-white font-bold py-2 px-4 rounded">Exit Technical Analysis</a>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,18 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Support and Resistance</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-</head>
-<body class="bg-gray-900 text-white">
-    <div class="container mx-auto py-12">
-        <h1 class="text-4xl font-bold">Understanding Support and Resistance</h1>
-        <p class="mt-4 text-lg">Support and resistance levels are critical in technical analysis.</p>
-        <div class="mt-6">
-            <a href="{% url 'slide_indicators' %}" class="px-4 py-2 bg-green-500 rounded-lg">Next</a>
+{% extends 'technical_analysis/technical_analysis_base.html' %}
+
+{% block title %}Technical Analysis - Support & Resistance{% endblock %}
+
+{% block content %}
+    <div class="bg-gray-800 bg-opacity-75 rounded-lg p-8 shadow-lg text-white">
+        <h2 class="text-3xl font-bold mb-4">Understanding Support and Resistance</h2>
+        <p class="mb-6 text-lg">Support and resistance are fundamental concepts in technical analysis used to identify price levels where the stock tends to reverse.</p>
+
+        <h3 class="text-2xl font-bold mb-2">Key Points:</h3>
+        <ul class="list-disc list-inside mb-4">
+            <li>Support Level: A price level where buying interest is strong enough to overcome selling pressure.</li>
+            <li>Resistance Level: A price level where selling interest is strong enough to overcome buying pressure.</li>
+        </ul>
+
+        <div class="flex justify-center mt-6">
+            <img src="https://via.placeholder.com/600x300?text=Support+and+Resistance+Chart" alt="Support and Resistance Chart" class="rounded-lg shadow-lg">
+        </div>
+
+        <!-- Back and Next buttons -->
+        <div class="flex justify-between mt-8">
+            <!-- Back Button (using JavaScript to navigate back) -->
+            <a href="javascript:history.back()" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition duration-300">Back</a>
+            
+            <!-- Next Button -->
+            <a href="{% url 'slide_indicators' %}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">Next: Indicators</a>
         </div>
     </div>
-</body>
-</html>
+{% endblock %}

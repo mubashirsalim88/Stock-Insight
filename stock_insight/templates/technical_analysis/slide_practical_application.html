@@ -1,34 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Practical Application</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <script src="https://s3.tradingview.com/tv.js"></script>
-</head>
-<body class="bg-gray-900 text-white">
-    <div class="container mx-auto py-12">
-        <h1 class="text-4xl font-bold">Practical Application</h1>
-        <p class="mt-4 text-lg">Apply the concepts learned in real-time using TradingView charts.</p>
-        <div id="tradingview_chart"></div>
-    </div>
+{% extends 'technical_analysis/technical_analysis_base.html' %}
 
-    <script>
-        new TradingView.widget({
-            "width": 980,
-            "height": 610,
-            "symbol": "NASDAQ:AAPL",
-            "interval": "D",
-            "timezone": "Etc/UTC",
-            "theme": "dark",
-            "style": "1",
-            "locale": "en",
-            "toolbar_bg": "#f1f3f6",
-            "enable_publishing": false,
-            "allow_symbol_change": true,
-            "container_id": "tradingview_chart"
-        });
-    </script>
-</body>
-</html>
+{% block title %}Technical Analysis - Practical Application{% endblock %}
+
+{% block content %}
+    <div class="bg-gray-800 bg-opacity-75 rounded-lg p-8 shadow-lg text-white">
+        <h2 class="text-3xl font-bold mb-4">Practical Application with TradingView</h2>
+        <p class="mb-6 text-lg">Let's put everything you've learned into practice! Below is an interactive TradingView chart to analyze real-time stock data.</p>
+
+        <!-- TradingView chart embedded -->
+        <div class="flex justify-center mt-6">
+            <iframe src="https://www.tradingview.com/chart/" width="600" height="400" class="rounded-lg shadow-lg" frameborder="0"></iframe>
+        </div>
+
+        <!-- Back and Next buttons -->
+        <div class="flex justify-between mt-8">
+            <!-- Back Button -->
+            <a href="{% url 'slide_candlesticks' %}" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition duration-300">Back: Candlestick Patterns</a>
+            
+        </div>
+    </div>
+{% endblock %}
