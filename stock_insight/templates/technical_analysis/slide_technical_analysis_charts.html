@@ -1,0 +1,29 @@
+{% extends 'technical_analysis/technical_analysis_base.html' %}
+
+{% block title %}Technical Analysis - Charts{% endblock %}
+
+{% block content %}
+<div class="min-h-screen w-full flex justify-center items-center p-0">
+    <div class="bg-white bg-opacity-90 rounded-lg p-8 shadow-xl text-gray-800 w-full max-w-5xl">
+        <h2 class="text-3xl font-bold mb-4 text-blue-600">Understanding Technical Analysis - Charts</h2>
+        <p class="mb-6 text-lg">Technical analysis involves the use of charts to study price movements and identify trading opportunities.</p>
+
+        <h3 class="text-2xl font-bold mb-2">Key Points:</h3>
+        <ul class="list-disc list-inside mb-4">
+            <li>Types of Charts: Line Chart, Candlestick Chart, Bar Chart</li>
+            <li>Understanding Chart Patterns</li>
+            <li>Using Charts for Trading Decisions</li>
+        </ul>
+
+        <div class="flex justify-center mt-6">
+            <img src="https://via.placeholder.com/600x300?text=Chart+Example" alt="Chart Example" class="rounded-lg shadow-lg transition-transform transform hover:scale-105 duration-300">
+        </div>
+
+        <!-- Back and Next buttons -->
+        <div class="flex justify-between mt-8">
+            <a href="javascript:history.back()" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition duration-300">Back</a>
+            <a href="{% url 'slide_price_action' %}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">Next: Price Action</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

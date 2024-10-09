@@ -1,0 +1,33 @@
+{% extends 'technical_analysis/technical_analysis_base.html' %}
+
+{% load static %}
+
+{% block title %}Technical Analysis - Charts{% endblock %}
+
+{% block content %}
+    <div class="min-h-screen w-full flex justify-center items-center p-0">
+        <div class="bg-white bg-opacity-90 rounded-lg p-8 shadow-xl text-gray-800 w-full max-w-5xl">
+            <h2 class="text-3xl font-bold mb-4 text-blue-600">Technical Analysis - Charts</h2>
+            <p class="mb-6 text-lg">Technical analysis involves studying past market data to predict future price movements. Two important chart types used in technical analysis are line graphs and candlestick charts.</p>
+
+            <!-- Line Graphs Section -->
+            <h3 class="text-2xl font-bold mb-2">Line Graphs</h3>
+            <p class="mb-4">A line graph connects closing prices over a specified period, providing a simple way to visualize price movements.</p>
+            <div class="flex justify-center mt-6">
+                <img src="{% static 'imgs/line_graph_example.jpg' %}" alt="Line Graph Example" class="rounded-lg shadow-lg transition-transform transform hover:scale-105 duration-300">
+            </div>
+
+            <!-- Candlestick Charts Section -->
+            <h3 class="text-2xl font-bold mb-4 mt-8">Candlestick Charts</h3>
+            <p class="mb-4">Candlestick charts provide a detailed view of price movements within a specific period. Each candlestick shows the open, high, low, and close prices of the stock.</p>
+            <div class="flex justify-center mt-6">
+                <img src="{% static 'imgs/candlestick_chart_example.jpg' %}" alt="Candlestick Chart Example" class="rounded-lg shadow-lg transition-transform transform hover:scale-105 duration-300">
+            </div>
+
+            <div class="flex justify-between mt-8">
+                <a href="javascript:history.back()" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition duration-300">Back</a>
+                <a href="{% url 'slide_price_action' %}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">Next: Price Action</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

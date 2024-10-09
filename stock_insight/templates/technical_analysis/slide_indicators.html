@@ -3,28 +3,30 @@
 {% block title %}Technical Analysis - Indicators{% endblock %}
 
 {% block content %}
-    <div class="bg-gray-800 bg-opacity-75 rounded-lg p-8 shadow-lg text-white">
-        <h2 class="text-3xl font-bold mb-4">Introduction to Indicators</h2>
-        <p class="mb-6 text-lg">Indicators are mathematical calculations based on the price, volume, or open interest of a security. They help traders make informed decisions.</p>
+    <div class="min-h-screen w-full flex justify-center items-center p-0">
+        <div class="bg-white bg-opacity-90 rounded-lg p-8 shadow-xl text-gray-800 w-full max-w-5xl">
+            <h2 class="text-3xl font-bold mb-4 text-blue-600">Introduction to Indicators</h2>
+            <p class="mb-6 text-lg">Indicators are mathematical calculations based on the price, volume, or open interest of a security. They help traders make informed decisions.</p>
 
-        <h3 class="text-2xl font-bold mb-2">Common Indicators:</h3>
-        <ul class="list-disc list-inside mb-4">
-            <li>Moving Averages</li>
-            <li>MACD (Moving Average Convergence Divergence)</li>
-            <li>RSI (Relative Strength Index)</li>
-        </ul>
+            <h3 class="text-2xl font-bold mb-2">Common Indicators:</h3>
+            <ul class="list-disc list-inside mb-4">
+                <li>Moving Averages</li>
+                <li>MACD (Moving Average Convergence Divergence)</li>
+                <li>RSI (Relative Strength Index)</li>
+            </ul>
 
-        <div class="flex justify-center mt-6">
-            <img src="https://via.placeholder.com/600x300?text=Indicators+Example" alt="Indicators Example" class="rounded-lg shadow-lg">
-        </div>
+            <div class="flex justify-center mt-6">
+                <img src="https://via.placeholder.com/600x300?text=Indicators+Example" alt="Indicators Example" class="rounded-lg shadow-lg transition-transform transform hover:scale-105 duration-300">
+            </div>
 
-        <!-- Back and Next buttons -->
-        <div class="flex justify-between mt-8">
-            <!-- Back Button (using JavaScript to navigate back) -->
-            <a href="javascript:history.back()" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition duration-300">Back</a>
-            
-            <!-- Next Button -->
-            <a href="{% url 'slide_candlesticks' %}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">Next: Candlestick Patterns</a>
+            <!-- Back and Next buttons -->
+            <div class="flex justify-between mt-8">
+                <!-- Back Button (using JavaScript to navigate back) -->
+                <a href="javascript:history.back()" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition duration-300">Back</a>
+                
+                <!-- Next Button -->
+                <a href="{% url 'slide_practical_application' %}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">Next: Practical Application</a>
+            </div>
         </div>
     </div>
 {% endblock %}

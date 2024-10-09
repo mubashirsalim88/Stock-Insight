@@ -3,19 +3,26 @@
 {% block title %}Technical Analysis - Practical Application{% endblock %}
 
 {% block content %}
-    <div class="bg-gray-800 bg-opacity-75 rounded-lg p-8 shadow-lg text-white">
-        <h2 class="text-3xl font-bold mb-4">Practical Application with TradingView</h2>
-        <p class="mb-6 text-lg">Let's put everything you've learned into practice! Below is an interactive TradingView chart to analyze real-time stock data.</p>
+    <div class="min-h-screen w-full flex justify-center items-center p-0">
+        <div class="bg-white bg-opacity-90 rounded-lg p-8 shadow-xl text-gray-800 w-full max-w-5xl">
+            <h2 class="text-3xl font-bold mb-4 text-blue-600">Practical Application with TradingView</h2>
+            <p class="mb-6 text-lg">Let's put everything you've learned into practice! Below is an interactive TradingView chart to analyze real-time stock data.</p>
 
-        <!-- TradingView chart embedded -->
-        <div class="flex justify-center mt-6">
-            <iframe src="https://www.tradingview.com/chart/" width="600" height="400" class="rounded-lg shadow-lg" frameborder="0"></iframe>
-        </div>
+            <!-- TradingView chart embedded with fullscreen button -->
+            <div class="flex justify-center mt-6">
+                <iframe 
+                    src="https://www.tradingview.com/widgetembed/?frameElementId=tradingview_1234&symbol=NASDAQ:AAPL&interval=D&hidesidetoolbar=1&theme=light&enablefullscreen=true" 
+                    width="800" height="600" 
+                    frameborder="0" 
+                    allowtransparency="true" 
+                    allowfullscreen="true">
+                </iframe>
+            </div>
 
-        <!-- Back and Next buttons -->
-        <div class="flex justify-between mt-8">
             <!-- Back Button -->
-            <a href="{% url 'slide_candlesticks' %}" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition duration-300">Back: Candlestick Patterns</a>
+            <div class="flex justify-center mt-8">
+                <a href="{% url 'technical_analysis_landing' %}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">Finish: Go to Start</a>
+            </div>
             
         </div>
     </div>

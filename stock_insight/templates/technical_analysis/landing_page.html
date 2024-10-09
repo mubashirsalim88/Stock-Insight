@@ -1,18 +1,44 @@
 {% extends 'technical_analysis/technical_analysis_base.html' %}
 
-{% block title %}Technical Analysis - Landing Page{% endblock %}
+{% load static %}
+
+{% block title %}Stock Market Learning - Landing Page{% endblock %}
 
 {% block content %}
-    <div class="flex items-center justify-center h-screen relative overflow-hidden">
-        <div class="bg-gray-800 bg-opacity-75 rounded-lg p-8 shadow-lg text-white text-center relative z-10">
-            <h1 class="text-4xl font-bold mb-4">Welcome to Technical Analysis</h1>
-            <p class="mb-6 text-lg">Learn the essentials of stock market trading and technical analysis step by step!</p>
+    <div class="min-h-screen w-full flex justify-center items-center p-0">
+        <div class="bg-white bg-opacity-90 rounded-lg p-8 shadow-xl text-gray-800 w-full max-w-5xl">
+            <h1 class="text-4xl font-bold mb-4 text-blue-600 text-center">Welcome to Stock Market Learning</h1>
+            <p class="mb-6 text-lg text-center">Explore the essentials of stock market trading and technical analysis step by step!</p>
 
-            <div class="flex flex-col items-center mb-6">
-                <img src="https://images.unsplash.com/photo-1518186233392-c232efbf2373?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" style="height: auto; width: 400px;" alt="Trading Chart" class="rounded-lg mb-4">
+            <!-- Slideshow container -->
+            <div class="flex justify-center mt-6">
+                <div id="slideshow" class="relative w-650">
+                    <img src="{% static 'imgs/landing_image_1.jpg' %}" alt="Stock Market 1" class="slide rounded-lg shadow-lg" style="display: block; height: auto; width: 500px;">
+                    <img src="{% static 'imgs/landing_image_2.jpg' %}" alt="Stock Market 2" class="slide rounded-lg shadow-lg" style="display: none; height: auto; width: 500px;">
+                    <img src="{% static 'imgs/landing_image_3.jpg' %}" alt="Stock Market 3" class="slide rounded-lg shadow-lg" style="display: none; height: auto; width: 500px;">
+                </div>
             </div>
 
-            <a href="{% url 'slide_stock_market' %}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">Start Learning</a>
+            <script>
+                let slideIndex = 0;
+                const slides = document.getElementsByClassName("slide");
+
+                function showSlides() {
+                    for (let i = 0; i < slides.length; i++) {
+                        slides[i].style.display = "none";  // Hide all slides
+                    }
+                    slideIndex++;
+                    if (slideIndex > slides.length) {slideIndex = 1} // Reset to the first slide
+                    slides[slideIndex - 1].style.display = "block";  // Show the current slide
+                    setTimeout(showSlides, 3000); // Change image every 3 seconds
+                }
+
+                showSlides(); // Initialize the slideshow
+            </script>
+
+            <div class="flex justify-center mt-8">
+                <a href="{% url 'slide_stock_market' %}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300 shadow-md">Start Learning</a>
+            </div>
         </div>
     </div>
 {% endblock %}

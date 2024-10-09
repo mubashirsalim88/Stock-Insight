@@ -12,9 +12,9 @@
         body {
             font-family: 'Arial', sans-serif;
             position: relative;
-            overflow-x: hidden; /* Disable horizontal overflow */
-            overflow-y: auto; /* Ensure the body is scrollable vertically */
-            min-height: 100vh; /* Ensure the body takes full height */
+            overflow-x: hidden;
+            overflow-y: auto;
+            min-height: 100vh;
         }
 
         /* Video Background */
@@ -25,19 +25,19 @@
             min-width: 100%;
             min-height: 100%;
             z-index: -1;
-            object-fit: cover; /* Ensures the video covers the whole background */
-            opacity: 0.6; /* Adjust the transparency of the video */
+            object-fit: cover;
+            opacity: 1;
         }
 
-        /* Navbar and Footer Styling */
-        nav, footer {
-            background-color: #1f2937; /* Dark slate gray */
-            border-top: 2px solid #4a5568; /* Similar border as the navbar */
+        /* Navbar Styling */
+        nav {
+            background-color: #1f2937;
+            border-bottom: 2px solid #4a5568;
         }
 
         /* Glow Effect for Stock Market Vibe */
         .glow {
-            color: #38a169; /* Neon green */
+            color: #38a169;
             text-shadow: 0 0 8px #38a169;
         }
 
@@ -45,6 +45,53 @@
         .content-container {
             position: relative;
             z-index: 1;
+        }
+
+        /* Button Styles */
+        .navbar-button, .accent-button {
+            background-color: #2d3748; /* Dark gray for a professional look */
+            color: white;
+            padding: 8px 16px; /* Adjusted padding for a cleaner button */
+            border-radius: 6px; /* Rounded corners */
+            transition: background-color 0.3s, transform 0.3s; /* Smooth transitions */
+            text-decoration: none; /* Remove underline */
+            display: inline-block; /* Ensure it behaves like a block element */
+            font-weight: 500; /* Semi-bold text */
+            font-size: 14px; /* Consistent font size */
+        }
+
+        .navbar-button:hover, .accent-button:hover {
+            background-color: #4a5568; /* Lighter gray on hover */
+            transform: translateY(-2px); /* Slight upward movement */
+        }
+
+        .navbar-button:active, .accent-button:active {
+            transform: translateY(0); /* Reset position on click */
+        }
+
+        /* Underline styles for the link */
+        .nav-item {
+            position: relative;
+            display: inline-block; /* Ensures the span aligns properly */
+            color: white; /* White text for better visibility */
+            font-weight: 600; /* Bold text for emphasis */
+            margin-right: 20px; /* Space between items */
+        }
+
+        .nav-item span {
+            display: block; /* Ensure the underline is block-level */
+            height: 2px; /* Height of the underline */
+            background-color: orange; /* Color of the underline */
+            position: absolute;
+            bottom: -5px; /* Position it just below the text */
+            left: 0;
+            right: 0; /* Full width */
+            transform: scaleX(0); /* Initially scale to 0 for a smooth transition */
+            transition: transform 0.3s ease; /* Smooth transition */
+        }
+
+        .nav-item:hover span {
+            transform: scaleX(1); /* Scale to full width on hover */
         }
     </style>
 </head>
@@ -56,18 +103,18 @@
     </video>
 
     <!-- Navbar -->
-    <nav class="p-4 shadow-lg bg-gray-800 border-b-2 border-gray-600">
+    <nav class="p-2 shadow-lg bg-gray-800 border-b-2 border-gray-600">
         <div class="container mx-auto flex justify-between items-center">
-            <!-- Left Side: Title and Tagline -->
             <div class="text-white font-bold text-2xl flex items-center">
-                <a href="{% url 'technical_analysis_landing' %}" class="hover:text-gray-300 nav-item">Technical Analysis</a>
-                <span class="tagline ml-4 text-sm font-normal text-gray-400">| Master the Art of Chart Patterns & Trends</span>
+                <a href="{% url 'technical_analysis_landing' %}" class="hover:text-gray-300 nav-item relative">
+                    Technical Analysis
+                    <span class="block h-1 w-full bg-orange-500 absolute bottom-[-5px] left-0 transition-all duration-300"></span>
+                </a>
             </div>
-
-            <!-- Right Side: Quote -->
-            <div class="text-gray-300 text-sm italic">
-                "Technical analysis is a way of looking at the market through charts and price action." 
+            <div class="text-gray-300 text-sm flex-grow text-center">
+                <span>| Master the Art of Chart Patterns & Trends |</span>
             </div>
+            <a href="{% url 'home' %}" class="navbar-button">Exit Learning Module</a>
         </div>
     </nav>
 
@@ -76,13 +123,6 @@
         {% block content %}
         {% endblock %}
     </div>
-
-    <!-- Footer -->
-    <footer class="p-4 mt-8 bg-gray-800 border-t-2 border-gray-600">
-        <div class="container mx-auto text-center">
-            <a href="{% url 'home' %}" class="accent-button text-white font-bold py-2 px-4 rounded">Exit Technical Analysis</a>
-        </div>
-    </footer>
 
 </body>
 </html>

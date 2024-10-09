@@ -1,0 +1,49 @@
+{% extends 'technical_analysis/technical_analysis_base.html' %}
+
+{% load static %}
+
+{% block title %}Technical Analysis - Price Action{% endblock %}
+
+{% block content %}
+    <div class="min-h-screen w-full flex justify-center items-center p-0">
+        <div class="bg-white bg-opacity-90 rounded-lg p-8 shadow-xl text-gray-800 w-full max-w-5xl">
+            <h2 class="text-3xl font-bold mb-4 text-blue-600">Technical Analysis - Price Action</h2>
+            <p class="mb-6 text-lg">Price action is the study of the movement of a security's price over time, used by traders to make informed decisions based on patterns, trends, and past movements.</p>
+
+            <!-- Key Concepts -->
+            <h3 class="text-2xl font-bold mb-4">Key Concepts in Price Action</h3>
+            <ul class="list-disc list-inside mb-4">
+                <li>Price Patterns</li>
+                <li>Trend Strength</li>
+                <li>Momentum</li>
+            </ul>
+
+            <!-- Candlestick Patterns Section -->
+            <h3 class="text-2xl font-bold mb-4">Candlestick Patterns</h3>
+            <p class="mb-4">Candlestick patterns, such as engulfing, doji, and hammer, are crucial for identifying price reversals and continuations.</p>
+            <div class="flex justify-center mt-6">
+                <img src="{% static 'imgs/candlestick_patterns.jpg' %}" alt="Candlestick Patterns" class="rounded-lg shadow-lg transition-transform transform hover:scale-105 duration-300">
+            </div>
+
+            <!-- Support and Resistance Section -->
+            <h3 class="text-2xl font-bold mb-4 mt-8">Support and Resistance</h3>
+            <p class="mb-4">Support and resistance levels are key areas where the price tends to reverse. Identifying these levels can help traders make informed decisions.</p>
+            <div class="flex justify-center mt-6">
+                <img src="{% static 'imgs/support_resistance.jpg' %}" alt="Support and Resistance Levels" class="rounded-lg shadow-lg transition-transform transform hover:scale-105 duration-300">
+            </div>
+
+            <!-- Trendlines -->
+            <h3 class="text-2xl font-bold mb-4 mt-8">Trendlines and Channels</h3>
+            <p class="mb-4">Using trendlines and channels, traders can predict future price movements by identifying support and resistance levels.</p>
+            <div class="flex justify-center mt-6">
+                <img src="{% static 'imgs/trendlines_channels.jpg' %}" alt="Trendlines and Channels" class="rounded-lg shadow-lg transition-transform transform hover:scale-105 duration-300">
+            </div>
+
+            <!-- Back and Next buttons -->
+            <div class="flex justify-between mt-8">
+                <a href="javascript:history.back()" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition duration-300">Back</a>
+                <a href="{% url 'slide_candlesticks' %}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">Next: Candlestick Patterns</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

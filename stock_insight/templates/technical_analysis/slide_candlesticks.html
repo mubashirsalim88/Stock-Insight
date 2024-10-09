@@ -3,28 +3,30 @@
 {% block title %}Technical Analysis - Candlestick Patterns{% endblock %}
 
 {% block content %}
-    <div class="bg-gray-800 bg-opacity-75 rounded-lg p-8 shadow-lg text-white">
-        <h2 class="text-3xl font-bold mb-4">Understanding Candlestick Patterns</h2>
-        <p class="mb-6 text-lg">Candlestick patterns are used to predict the future movement of prices. Each candlestick shows open, high, low, and close prices for a specific time frame.</p>
+    <div class="min-h-screen w-full flex justify-center items-center p-0">
+        <div class="bg-white bg-opacity-90 rounded-lg p-8 shadow-xl text-gray-800 w-full max-w-5xl">
+            <h2 class="text-3xl font-bold mb-4 text-blue-600">Understanding Candlestick Patterns</h2>
+            <p class="mb-6 text-lg">Candlestick patterns are used to predict the future movement of prices. Each candlestick shows open, high, low, and close prices for a specific time frame.</p>
 
-        <h3 class="text-2xl font-bold mb-2">Popular Patterns:</h3>
-        <ul class="list-disc list-inside mb-4">
-            <li>Doji</li>
-            <li>Hammer</li>
-            <li>Engulfing Patterns</li>
-        </ul>
+            <h3 class="text-2xl font-bold mb-2">Popular Patterns:</h3>
+            <ul class="list-disc list-inside mb-4">
+                <li>Doji</li>
+                <li>Hammer</li>
+                <li>Engulfing Patterns</li>
+            </ul>
 
-        <div class="flex justify-center mt-6">
-            <img src="https://via.placeholder.com/600x300?text=Candlestick+Patterns" alt="Candlestick Patterns" class="rounded-lg shadow-lg">
-        </div>
+            <div class="flex justify-center mt-6">
+                <img src="https://via.placeholder.com/600x300?text=Candlestick+Patterns" alt="Candlestick Patterns" class="rounded-lg shadow-lg transition-transform transform hover:scale-105 duration-300">
+            </div>
 
-        <!-- Back and Next buttons -->
-        <div class="flex justify-between mt-8">
-            <!-- Back Button (using JavaScript to navigate back) -->
-            <a href="javascript:history.back()" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition duration-300">Back</a>
-            
-            <!-- Next Button -->
-            <a href="{% url 'slide_practical_application' %}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">Next: Practical Application</a>
+            <!-- Back and Next buttons -->
+            <div class="flex justify-between mt-8">
+                <!-- Back Button (using JavaScript to navigate back) -->
+                <a href="javascript:history.back()" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition duration-300">Back</a>
+                
+                <!-- Next Button -->
+                <a href="{% url 'slide_support_resistance' %}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">Next: Support and Resistance</a>
+            </div>
         </div>
     </div>
 {% endblock %}

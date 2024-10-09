@@ -1,29 +1,47 @@
 {% extends 'technical_analysis/technical_analysis_base.html' %}
 
+{% load static %}
+
 {% block title %}Technical Analysis - Support & Resistance{% endblock %}
 
 {% block content %}
-    <div class="bg-gray-800 bg-opacity-75 rounded-lg p-8 shadow-lg text-white">
-        <h2 class="text-3xl font-bold mb-4">Understanding Support and Resistance</h2>
-        <p class="mb-6 text-lg">Support and resistance are fundamental concepts in technical analysis used to identify price levels where the stock tends to reverse.</p>
+    <div class="min-h-screen w-full flex justify-center items-center p-0">
+        <div class="bg-white bg-opacity-90 rounded-lg p-8 shadow-xl text-gray-800 w-full max-w-5xl">
+            <h2 class="text-3xl font-bold mb-4 text-blue-600">Understanding Support & Resistance</h2>
+            <p class="mb-6 text-lg">Support and resistance levels are critical tools for traders to identify potential reversal points, helping them make more informed trading decisions.</p>
 
-        <h3 class="text-2xl font-bold mb-2">Key Points:</h3>
-        <ul class="list-disc list-inside mb-4">
-            <li>Support Level: A price level where buying interest is strong enough to overcome selling pressure.</li>
-            <li>Resistance Level: A price level where selling interest is strong enough to overcome buying pressure.</li>
-        </ul>
+            <!-- Key Concepts Section -->
+            <h3 class="text-2xl font-bold mb-4">Key Concepts:</h3>
+            <ul class="list-disc list-inside mb-4">
+                <li><strong>Support Level:</strong> A price level where buying interest is strong enough to prevent the price from falling further.</li>
+                <li><strong>Resistance Level:</strong> A price level where selling interest is strong enough to prevent the price from rising further.</li>
+            </ul>
 
-        <div class="flex justify-center mt-6">
-            <img src="https://via.placeholder.com/600x300?text=Support+and+Resistance+Chart" alt="Support and Resistance Chart" class="rounded-lg shadow-lg">
-        </div>
+            <!-- Example Images Section -->
+            <h3 class="text-2xl font-bold mb-4">Examples of Support & Resistance</h3>
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <img src="{% static 'imgs/support_level_example.jpg' %}" alt="Support Level Example" class="rounded-lg shadow-lg transition-transform transform hover:scale-105 duration-300">
+                    <p class="text-center mt-2 text-sm">Example of Support Level</p>
+                </div>
+                <div>
+                    <img src="{% static 'imgs/resistance_level_example.jpg' %}" alt="Resistance Level Example" class="rounded-lg shadow-lg transition-transform transform hover:scale-105 duration-300">
+                    <p class="text-center mt-2 text-sm">Example of Resistance Level</p>
+                </div>
+            </div>
 
-        <!-- Back and Next buttons -->
-        <div class="flex justify-between mt-8">
-            <!-- Back Button (using JavaScript to navigate back) -->
-            <a href="javascript:history.back()" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition duration-300">Back</a>
-            
-            <!-- Next Button -->
-            <a href="{% url 'slide_indicators' %}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">Next: Indicators</a>
+            <!-- Breakouts Section -->
+            <h3 class="text-2xl font-bold mb-4 mt-8">Breakouts: When Support or Resistance Fails</h3>
+            <p class="mb-4">When the price breaks through a support or resistance level, it can indicate the beginning of a new trend.</p>
+            <div class="flex justify-center mt-6">
+                <img src="{% static 'imgs/breakout_example.jpg' %}" alt="Breakout Example" class="rounded-lg shadow-lg transition-transform transform hover:scale-105 duration-300">
+            </div>
+
+            <!-- Back and Next buttons -->
+            <div class="flex justify-between mt-8">
+                <a href="javascript:history.back()" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition duration-300">Back</a>
+                <a href="{% url 'slide_trendlines' %}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">Next: Trendlines</a>
+            </div>
         </div>
     </div>
 {% endblock %}

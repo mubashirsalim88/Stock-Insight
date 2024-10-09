@@ -1,32 +1,90 @@
 {% extends 'technical_analysis/technical_analysis_base.html' %}
 
-{% block title %}Technical Analysis - Stock Market{% endblock %}
+{% load static %}
+
+{% block title %}Introduction to Stock Markets{% endblock %}
 
 {% block content %}
-    <div class="bg-gray-800 bg-opacity-75 rounded-lg p-8 shadow-lg text-white">
-        <h2 class="text-3xl font-bold mb-4 glow">Introduction to Stock Market</h2>
-        <p class="mb-6 text-lg">The stock market is a marketplace for buying and selling stocks, which represent ownership in companies.</p>
-        
-        <h3 class="text-2xl font-bold mb-2">Key Concepts:</h3>
-        <ul class="list-disc list-inside mb-4">
-            <li>What is a Stock?</li>
-            <li>How Stocks Are Traded</li>
-            <li>Market Participants</li>
-        </ul>
+    <div class="min-h-screen w-full flex justify-center items-center p-0">
+        <div class="bg-white bg-opacity-90 rounded-lg p-8 shadow-xl text-gray-800 w-full max-w-5xl">
+            <h2 class="text-3xl font-bold mb-6 text-blue-600">Introduction to Stock Markets</h2>
 
-        <p>Understanding the stock market is crucial for making informed investment decisions.</p>
+            <!-- Section: Why Should You Invest? -->
+            <section class="mb-8">
+                <h3 class="text-2xl font-semibold text-blue-500 mb-4">Why Should You Invest?</h3>
+                <ul class="list-disc list-inside mb-4">
+                    <li><strong>Fight Inflation:</strong> Investment helps counter the rising cost of living over time, commonly referred to as inflation.</li>
+                    <li><strong>Create Wealth:</strong> Investing allows individuals to build a corpus over time, achieving financial goals.</li>
+                    <li><strong>Meet Financial Aspirations:</strong> Investments help fulfill life's financial goals and dreams.</li>
+                </ul>
+            </section>
 
-        <div class="flex justify-center mt-6">
-            <img src="https://via.placeholder.com/600x300?text=Stock+Market+Overview" alt="Stock Market Overview" class="rounded-lg shadow-lg">
-        </div>
-        
-        <!-- Back and Next buttons -->
-        <div class="flex justify-between mt-8">
-            <!-- Back Button (using JavaScript to navigate back) -->
-            <a href="javascript:history.back()" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition duration-300">Back</a>
-            
-            <!-- Next Button -->
-            <a href="{% url 'slide_trendlines' %}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">Next: Trendlines</a>
+            <!-- Section: Types of Investment -->
+            <section class="mb-8">
+                <h3 class="text-2xl font-semibold text-blue-500 mb-4">Types of Investments</h3>
+                <ul class="list-disc list-inside mb-4">
+                    <li><strong>Fixed Income Instruments:</strong> Includes fixed deposits (FDs) and bonds that provide a guaranteed return over a fixed time period.</li>
+                    <li><strong>Equity:</strong> Involves buying shares of publicly listed companies through stock exchanges.</li>
+                    <li><strong>Real Estate:</strong> Investment in property, including apartments, land, and commercial buildings, generating rental income and capital appreciation.</li>
+                    <li><strong>Commodities:</strong> Investment in precious metals like gold and silver.</li>
+                </ul>
+            </section>
+
+            <!-- Section: Market Participants -->
+            <section class="mb-8">
+                <h3 class="text-2xl font-semibold text-blue-500 mb-4">Who Participates in the Stock Market?</h3>
+                <p class="text-lg mb-4">
+                    Various participants play critical roles in the stock market:
+                </p>
+                <ul class="list-disc list-inside mb-4">
+                    <li><strong>Retail Investors:</strong> Individuals investing in the stock market for personal accounts.</li>
+                    <li><strong>Institutional Investors:</strong> Large organizations or entities that hold significant stakes in companies.</li>
+                    <li><strong>Mutual Funds:</strong> Funds that invest in companies meeting specific criteria on behalf of investors.</li>
+                    <li><strong>Investment Banks:</strong> Assist companies in raising capital through public offerings.</li>
+                </ul>
+            </section>
+
+            <!-- Section: Stock Market Timings in India -->
+            <section class="mb-8">
+                <h3 class="text-2xl font-semibold text-blue-500 mb-4">Stock Market Timings in India</h3>
+                <ul class="list-disc list-inside mb-4">
+                    <li><strong>Pre-Opening Session (9:00 AM - 9:15 AM):</strong> Allows investors to place and modify orders before the market officially opens.</li>
+                    <li><strong>Normal Trading Session (9:15 AM - 3:30 PM):</strong> The primary session where most trading occurs.</li>
+                    <li><strong>Post-Closing Session (3:40 PM - 4:00 PM):</strong> Investors can place orders at the closing price.</li>
+                </ul>
+            </section>
+
+            <!-- Section: Other Financial Markets -->
+            <section class="mb-8">
+                <h3 class="text-2xl font-semibold text-blue-500 mb-4">Other Financial Markets</h3>
+                <p class="text-lg mb-4">
+                    In addition to the stock market, other financial markets include:
+                </p>
+                <ul class="list-disc list-inside mb-4">
+                    <li><strong>Forex Market:</strong> The world's largest financial market, where currencies are exchanged.</li>
+                    <li><strong>Cryptocurrency Market:</strong> A decentralized digital currency market, where cryptocurrencies like Bitcoin are traded.</li>
+                    <li><strong>Commodities Market:</strong> Trading in physical goods like gold, silver, oil, and agricultural products.</li>
+                </ul>
+            </section>
+
+            <!-- Section: Types of Traders -->
+            <section class="mb-8">
+                <h3 class="text-2xl font-semibold text-blue-500 mb-4">Types of Traders</h3>
+                <p class="text-lg mb-4">
+                    Traders in the market use various strategies based on their risk appetite and time horizons:
+                </p>
+                <ul class="list-disc list-inside mb-4">
+                    <li><strong>Intraday Traders:</strong> Buy and sell within the same day to profit from short-term price movements.</li>
+                    <li><strong>Swing Traders:</strong> Hold stocks for days or weeks, targeting short- to medium-term trends.</li>
+                    <li><strong>Position Traders:</strong> Hold stocks for months or even years, focusing on long-term growth.</li>
+                </ul>
+            </section>
+
+            <!-- Navigation Buttons -->
+            <div class="flex justify-between mt-8">
+                <a href="javascript:history.back()" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition duration-300">Back</a>
+                <a href="{% url 'slide_technical_analysis_charts' %}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">Next: Technical Analysis - Charts</a>
+            </div>
         </div>
     </div>
 {% endblock %}
