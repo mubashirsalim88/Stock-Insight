@@ -8,7 +8,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     
     # Main App URLs
-    path('', main_views.home, name='home'),  # Main app home view
+    path('', main_views.index, name='index'),  # Main app index view
+    path('home/', main_views.home, name='home'), # Main app index view
     path('profile/', main_views.profile, name='profile'),  # Main app profile view
     path('market_today/', main_views.market_today, name='market_today'),  # Main app market_today view
     path('register/', main_views.register, name='register'),  # Main app register view

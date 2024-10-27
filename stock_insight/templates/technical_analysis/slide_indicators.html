@@ -1,30 +1,55 @@
 {% extends 'technical_analysis/technical_analysis_base.html' %}
 
+{% load static %}
+
 {% block title %}Technical Analysis - Indicators{% endblock %}
 
 {% block content %}
     <div class="min-h-screen w-full flex justify-center items-center p-0">
-        <div class="bg-white bg-opacity-90 rounded-lg p-8 shadow-xl text-gray-800 w-full max-w-5xl">
-            <h2 class="text-3xl font-bold mb-4 text-blue-600">Introduction to Indicators</h2>
-            <p class="mb-6 text-lg">Indicators are mathematical calculations based on the price, volume, or open interest of a security. They help traders make informed decisions.</p>
+        <div class="bg-white bg-opacity-90 rounded-lg p-8 shadow-xl text-gray-800 w-full max-w-5xl space-y-12">
 
-            <h3 class="text-2xl font-bold mb-2">Common Indicators:</h3>
-            <ul class="list-disc list-inside mb-4">
-                <li>Moving Averages</li>
-                <li>MACD (Moving Average Convergence Divergence)</li>
-                <li>RSI (Relative Strength Index)</li>
-            </ul>
+            <!-- Main Title -->
+            <h1 class="text-4xl font-bold text-center text-indigo-600 mb-6">📈 Introduction to Key Indicators</h1>
+            <p class="text-lg text-center mb-6">
+                Indicators are mathematical tools used to analyze price movements and help traders make more informed decisions. Here are three of the most common indicators: MACD, RSI, and EMA.
+            </p>
 
-            <div class="flex justify-center mt-6">
-                <img src="https://via.placeholder.com/600x300?text=Indicators+Example" alt="Indicators Example" class="rounded-lg shadow-lg transition-transform transform hover:scale-105 duration-300">
-            </div>
+            <!-- MACD Section -->
+            <section class="bg-gray-100 p-6 rounded-lg shadow-md space-y-4">
+                <h3 class="text-3xl font-bold text-blue-500">📊 MACD (Moving Average Convergence Divergence)</h3>
+                <p class="text-lg text-gray-700">
+                    The MACD is a trend-following momentum indicator that shows the relationship between two moving averages of a security’s price. It helps traders spot bullish or bearish signals.
+                </p>
+                <div class="flex justify-center mt-4">
+                    <img src="{% static 'imgs/macd.png' %}" alt="MACD Indicator" class="rounded-lg shadow-lg transition-transform transform hover:scale-105 duration-300 w-full h-auto max-w-lg">
+                </div>
+            </section>
+
+            <!-- RSI Section -->
+            <section class="bg-gray-100 p-6 rounded-lg shadow-md space-y-4">
+                <h3 class="text-3xl font-bold text-green-500">📊 RSI (Relative Strength Index)</h3>
+                <p class="text-lg text-gray-700">
+                    RSI is a momentum oscillator that measures the speed and change of price movements. It's used to identify overbought or oversold conditions, helping traders gauge when a price might reverse.
+                </p>
+                <div class="flex justify-center mt-4">
+                    <img src="{% static 'imgs/rsi.png' %}" alt="RSI Indicator" class="rounded-lg shadow-lg transition-transform transform hover:scale-105 duration-300 w-full h-auto max-w-lg">
+                </div>
+            </section>
+
+            <!-- EMA Section -->
+            <section class="bg-gray-100 p-6 rounded-lg shadow-md space-y-4">
+                <h3 class="text-3xl font-bold text-red-500">📊 EMA (Exponential Moving Average)</h3>
+                <p class="text-lg text-gray-700">
+                    The EMA is a type of moving average that gives more weight to recent prices, making it more responsive to new information. It's often used in combination with other indicators to confirm trends.
+                </p>
+                <div class="flex justify-center mt-4">
+                    <img src="{% static 'imgs/ema.png' %}" alt="EMA Indicator" class="rounded-lg shadow-lg transition-transform transform hover:scale-105 duration-300 w-full h-auto max-w-lg">
+                </div>
+            </section>
 
             <!-- Back and Next buttons -->
             <div class="flex justify-between mt-8">
-                <!-- Back Button (using JavaScript to navigate back) -->
                 <a href="javascript:history.back()" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition duration-300">Back</a>
-                
-                <!-- Next Button -->
                 <a href="{% url 'slide_practical_application' %}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">Next: Practical Application</a>
             </div>
         </div>

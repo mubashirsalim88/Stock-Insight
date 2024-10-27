@@ -27,6 +27,11 @@ class Profile(models.Model):
     dob = models.DateField(null=True, blank=True)
     phone_number = models.CharField(max_length=15, null=True, blank=True)
     gender = models.CharField(max_length=10, null=True, blank=True)
+    profession = models.CharField(max_length=100, null=True, blank=True)
+    experience = models.CharField(max_length=100, null=True, blank=True)
+    interests = models.TextField(null=True, blank=True)  # Can store comma-separated interests
+    trading_knowledge = models.CharField(max_length=50, null=True, blank=True)  # Added field
+
 
 
 class UpstoxToken(models.Model):

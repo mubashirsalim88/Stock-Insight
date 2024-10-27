@@ -6,78 +6,109 @@
 
 {% block content %}
     <div class="min-h-screen w-full flex justify-center items-center p-0">
-        <div class="bg-white bg-opacity-90 rounded-lg p-8 shadow-xl text-gray-800 w-full max-w-5xl">
-            <h2 class="text-3xl font-bold mb-6 text-blue-600">Introduction to Stock Markets</h2>
+        <div class="bg-white bg-opacity-90 rounded-lg p-8 shadow-xl text-gray-800 w-full max-w-5xl space-y-12">
+            
+            <!-- Main Heading -->
+            <h1 class="text-4xl font-bold text-center text-teal-600 mb-6">Introduction to Stock Markets</h1>
+
+            <!-- Section: What is the Stock Market? -->
+            <section class="bg-gray-100 p-6 rounded-lg shadow-md">
+                <h3 class="text-3xl font-bold text-orange-500 mb-4">🏦 What is the Stock Market?</h3>
+                <p class="text-lg text-gray-700 mb-4">
+                    The stock market is a place where market participants can access any publicly listed company and trade from their point of view, as long as there are other participants who have an opposing point of view. Different opinions are what make a market.
+                </p>
+                <ul class="list-disc list-inside text-lg space-y-2">
+                    <li><strong class="text-red-500">Stocks represent ownership:</strong> Each share of stock is a small portion of a company's ownership.</li>
+                    <li><strong class="text-green-500">Supply and demand:</strong> Prices of stocks fluctuate based on market forces.</li>
+                    <li><strong class="text-purple-500">Market Participants:</strong> Includes retail investors, institutional investors, mutual funds, and more.</li>
+                </ul>
+            </section>
+
+            <!-- New Section: What Happens After You Own a Stock? -->
+            <section class="bg-green-50 p-6 rounded-lg shadow-md">
+                <h3 class="text-3xl font-bold text-green-600 mb-4">📄 What Happens After You Own a Stock?</h3>
+                <p class="text-lg text-gray-700 mb-4">
+                    After you buy shares, they will reside in your DEMAT account, making you a part-owner of the company, to the extent of your shareholding. For instance, owning 200 shares of Infosys means you own 0.000035% of Infosys. 
+                </p>
+                <p class="text-lg text-gray-700 mb-4">
+                    As a shareholder, you are entitled to several corporate benefits, such as dividends, stock splits, bonuses, rights issues, and voting rights. We will explore all these shareholder privileges at a later stage.
+                </p>
+            </section>
 
             <!-- Section: Why Should You Invest? -->
-            <section class="mb-8">
-                <h3 class="text-2xl font-semibold text-blue-500 mb-4">Why Should You Invest?</h3>
-                <ul class="list-disc list-inside mb-4">
-                    <li><strong>Fight Inflation:</strong> Investment helps counter the rising cost of living over time, commonly referred to as inflation.</li>
-                    <li><strong>Create Wealth:</strong> Investing allows individuals to build a corpus over time, achieving financial goals.</li>
-                    <li><strong>Meet Financial Aspirations:</strong> Investments help fulfill life's financial goals and dreams.</li>
+            <section class="bg-indigo-50 p-6 rounded-lg shadow-md">
+                <h3 class="text-3xl font-bold text-indigo-600 mb-4">💡 Why Should You Invest in the Stock Market?</h3>
+                <ul class="list-disc list-inside mb-4 space-y-2 text-lg">
+                    <li><strong class="text-red-500">Fight Inflation:</strong> Investments help counter inflation over time.</li>
+                    <li><strong class="text-green-500">Create Wealth:</strong> Building wealth over time through smart investments.</li>
+                    <li><strong class="text-purple-500">Meet Financial Aspirations:</strong> Investments help achieve financial goals and dreams.</li>
                 </ul>
             </section>
 
-            <!-- Section: Types of Investment -->
-            <section class="mb-8">
-                <h3 class="text-2xl font-semibold text-blue-500 mb-4">Types of Investments</h3>
-                <ul class="list-disc list-inside mb-4">
-                    <li><strong>Fixed Income Instruments:</strong> Includes fixed deposits (FDs) and bonds that provide a guaranteed return over a fixed time period.</li>
-                    <li><strong>Equity:</strong> Involves buying shares of publicly listed companies through stock exchanges.</li>
-                    <li><strong>Real Estate:</strong> Investment in property, including apartments, land, and commercial buildings, generating rental income and capital appreciation.</li>
-                    <li><strong>Commodities:</strong> Investment in precious metals like gold and silver.</li>
+            <!-- Section: Types of Markets -->
+            <section class="bg-yellow-50 p-6 rounded-lg shadow-md">
+                <h3 class="text-3xl font-bold text-yellow-600 mb-4">🌐 Types of Markets</h3>
+                <ul class="list-disc list-inside mb-4 space-y-2 text-lg">
+                    <li><strong class="text-blue-600">Stock Market:</strong> Trading of company shares.</li>
+                    <li><strong class="text-blue-600">Forex Market:</strong> Foreign exchange market where currencies are traded.</li>
+                    <li><strong class="text-blue-600">Cryptocurrency Market:</strong> Trading of digital currencies like Bitcoin and Ethereum.</li>
+                    <li><strong class="text-blue-600">Commodities Market:</strong> Trading in physical goods like gold, oil, and agricultural products.</li>
                 </ul>
             </section>
 
-            <!-- Section: Market Participants -->
-            <section class="mb-8">
-                <h3 class="text-2xl font-semibold text-blue-500 mb-4">Who Participates in the Stock Market?</h3>
+            <!-- Section: Market Participants (Using Emojis for Icons) -->
+            <section class="bg-orange-50 p-6 rounded-lg shadow-md">
+                <h3 class="text-3xl font-bold text-orange-600 mb-4">👥 Market Participants</h3>
+                <ul class="list-none space-y-4">
+                    <li class="flex items-center">
+                        <span class="text-2xl mr-4">👤</span>
+                        <span><strong class="text-orange-700">Retail Investors:</strong> Individuals investing for personal gain.</span>
+                    </li>
+                    <li class="flex items-center">
+                        <span class="text-2xl mr-4">🏦</span>
+                        <span><strong class="text-orange-700">Institutional Investors:</strong> Large entities like mutual funds and pension funds.</span>
+                    </li>
+                    <li class="flex items-center">
+                        <span class="text-2xl mr-4">💼</span>
+                        <span><strong class="text-orange-700">Mutual Funds:</strong> Pooled funds invested across a diversified portfolio.</span>
+                    </li>
+                    <li class="flex items-center">
+                        <span class="text-2xl mr-4">🏛️</span>
+                        <span><strong class="text-orange-700">Investment Banks:</strong> Assist companies in raising capital.</span>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- Section: Stock Market Timings (Styled box with border) -->
+            <section class="bg-yellow-50 p-6 rounded-lg shadow-md border-l-4 border-yellow-400">
+                <h3 class="text-3xl font-bold text-yellow-600 mb-4">🕒 Stock Market Timings in India</h3>
                 <p class="text-lg mb-4">
-                    Various participants play critical roles in the stock market:
+                    The Indian stock market operates on the following schedule:
                 </p>
-                <ul class="list-disc list-inside mb-4">
-                    <li><strong>Retail Investors:</strong> Individuals investing in the stock market for personal accounts.</li>
-                    <li><strong>Institutional Investors:</strong> Large organizations or entities that hold significant stakes in companies.</li>
-                    <li><strong>Mutual Funds:</strong> Funds that invest in companies meeting specific criteria on behalf of investors.</li>
-                    <li><strong>Investment Banks:</strong> Assist companies in raising capital through public offerings.</li>
+                <ul class="list-disc list-inside space-y-2">
+                    <li><strong class="text-yellow-600">Pre-Opening Session:</strong> 9:00 AM - 9:15 AM</li>
+                    <li><strong class="text-yellow-600">Normal Trading Session:</strong> 9:15 AM - 3:30 PM</li>
+                    <li><strong class="text-yellow-600">Post-Closing Session:</strong> 3:40 PM - 4:00 PM</li>
                 </ul>
             </section>
 
-            <!-- Section: Stock Market Timings in India -->
-            <section class="mb-8">
-                <h3 class="text-2xl font-semibold text-blue-500 mb-4">Stock Market Timings in India</h3>
-                <ul class="list-disc list-inside mb-4">
-                    <li><strong>Pre-Opening Session (9:00 AM - 9:15 AM):</strong> Allows investors to place and modify orders before the market officially opens.</li>
-                    <li><strong>Normal Trading Session (9:15 AM - 3:30 PM):</strong> The primary session where most trading occurs.</li>
-                    <li><strong>Post-Closing Session (3:40 PM - 4:00 PM):</strong> Investors can place orders at the closing price.</li>
-                </ul>
-            </section>
-
-            <!-- Section: Other Financial Markets -->
-            <section class="mb-8">
-                <h3 class="text-2xl font-semibold text-blue-500 mb-4">Other Financial Markets</h3>
-                <p class="text-lg mb-4">
-                    In addition to the stock market, other financial markets include:
-                </p>
-                <ul class="list-disc list-inside mb-4">
-                    <li><strong>Forex Market:</strong> The world's largest financial market, where currencies are exchanged.</li>
-                    <li><strong>Cryptocurrency Market:</strong> A decentralized digital currency market, where cryptocurrencies like Bitcoin are traded.</li>
-                    <li><strong>Commodities Market:</strong> Trading in physical goods like gold, silver, oil, and agricultural products.</li>
-                </ul>
-            </section>
-
-            <!-- Section: Types of Traders -->
-            <section class="mb-8">
-                <h3 class="text-2xl font-semibold text-blue-500 mb-4">Types of Traders</h3>
-                <p class="text-lg mb-4">
-                    Traders in the market use various strategies based on their risk appetite and time horizons:
-                </p>
-                <ul class="list-disc list-inside mb-4">
-                    <li><strong>Intraday Traders:</strong> Buy and sell within the same day to profit from short-term price movements.</li>
-                    <li><strong>Swing Traders:</strong> Hold stocks for days or weeks, targeting short- to medium-term trends.</li>
-                    <li><strong>Position Traders:</strong> Hold stocks for months or even years, focusing on long-term growth.</li>
-                </ul>
+            <!-- Section: Types of Traders (Stylized cards with hover effects) -->
+            <section class="bg-red-50 p-6 rounded-lg shadow-md">
+                <h3 class="text-3xl font-bold text-red-500 mb-4">📈 Types of Traders</h3>
+                <div class="grid grid-cols-3 gap-6">
+                    <div class="bg-red-100 p-4 rounded-lg shadow-md hover:bg-red-200 transition-colors duration-300">
+                        <h4 class="font-bold text-red-600">Intraday Traders</h4>
+                        <p class="text-gray-700">Buy and sell within the same day to profit from small price movements.</p>
+                    </div>
+                    <div class="bg-red-100 p-4 rounded-lg shadow-md hover:bg-red-200 transition-colors duration-300">
+                        <h4 class="font-bold text-red-600">Swing Traders</h4>
+                        <p class="text-gray-700">Hold stocks for days or weeks, profiting from short-term trends.</p>
+                    </div>
+                    <div class="bg-red-100 p-4 rounded-lg shadow-md hover:bg-red-200 transition-colors duration-300">
+                        <h4 class="font-bold text-red-600">Position Traders</h4>
+                        <p class="text-gray-700">Hold stocks for longer periods, focusing on long-term growth.</p>
+                    </div>
+                </div>
             </section>
 
             <!-- Navigation Buttons -->

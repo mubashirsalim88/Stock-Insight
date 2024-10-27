@@ -1,46 +1,260 @@
-body {
-    font-family: Arial, sans-serif;
+/* Reset */
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
-    
-header {
-    background-color: #333;
+
+/* Body Styling */
+body {
+    font-family: Arial, sans-serif;
     color: #fff;
-    padding: 1rem;
+    background-color: #0A0A0A;
+    line-height: 1.6;
 }
 
-nav ul {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    justify-content: space-around;
-}
-
-nav ul li {
-    display: inline;
-}
-
-nav ul li a {
-    color: #fff;
-    text-decoration: none;
-    padding: 0.5rem;
-}
-
-main {
-    padding: 2rem;
-}
-
-.stock-charts {
-    margin-top: 2rem;
-}
-
-footer {
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    padding: 1rem;
+/* Navbar */
+.navbar {
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 1rem 0;
     position: fixed;
-    bottom: 0;
     width: 100%;
+    z-index: 10;
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+}
+
+.nav-links a {
+    color: #959595;
+    text-decoration: none;
+    font-weight: bold;
+    position: relative;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: #fff;
+}
+
+.connect-button {
+    background-color: #6366F1;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: transform 0.3s;
+}
+
+.connect-button:hover {
+    transform: scale(1.05);
+}
+
+/* Hero Section */
+.hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: linear-gradient(45deg, #ffaa40, #9c40ff);
+    background-size: 200% 200%;
+    animation: bgAnimation 8s ease infinite;
+}
+
+@keyframes bgAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.hero-content {
+    text-align: center;
+    z-index: 1;
+}
+
+.hero-content h1 {
+    font-size: 3rem;
+    background: linear-gradient(to right, #ffaa40, #9c40ff);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    font-weight: bold;
+    animation: shimmer 3s linear infinite;
+}
+
+.shimmer-text {
+    font-size: 3rem;
+    font-weight: bold;
+    background: linear-gradient(to right, #ffaa40, #9c40ff);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    animation: shimmer 3s linear infinite;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6); /* Add shadow for better readability */
+}
+
+@keyframes shimmer {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    margin-top: 1rem;
+}
+
+.cta-button {
+    background-color: #6366F1;
+    border: none;
+    color: #fff;
+    padding: 0.7rem 1.5rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.cta-button:hover {
+    background-color: #6366D1;
+}
+
+/* Hero Overlay */
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.7));
+}
+
+/* Client Logo Carousel */
+.client-carousel {
+    overflow: hidden;
+    padding: 2rem 0;
+    background: #111;
+}
+
+.client-marquee {
+    display: flex;
+    gap: 2rem;
+    animation: marquee 10s linear infinite;
+}
+
+@keyframes marquee {
+    from { transform: translateX(100%); }
+    to { transform: translateX(-100%); }
+}
+
+.client-marquee img {
+    width: 100px;
+    filter: grayscale(100%);
+    transition: filter 0.3s;
+}
+
+.client-marquee img:hover {
+    filter: grayscale(0);
+}
+
+/* Projects Section */
+.projects-section {
+    padding: 3rem 0;
+    background-color: #111;
+    text-align: center;
+}
+
+.projects-grid {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.project-card {
+    background: #222;
+    padding: 1.5rem;
+    border-radius: 10px;
+    width: 250px;
+    text-align: left;
+    border: 2px solid transparent;
+    border-image: linear-gradient(to right, #ffaa40, #9c40ff) 1;
+    transition: transform 0.3s, border-color 0.3s;
+}
+
+.project-card:hover {
+    transform: scale(1.05);
+    border-color: #ffaa40;
+}
+
+.project-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Contact Section */
+.contact-section {
+    padding: 3rem 0;
+    background-color: #333;
+    text-align: center;
+}
+
+/* Footer */
+.footer {
+    background: #0A0A0A;
+    padding: 1rem 0;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.social-links a {
+    margin: 0 1rem;
+    color: #959595;
+    text-decoration: none;
+}
+
+.social-links a:hover {
+    color: #fff;
+}
+
+/* Dotted Background Styling */
+.dotted-background {
+    position: relative;
+    background-color: #0A0A0A; /* Dark base color */
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Dot pattern background */
+.dotted-background::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, #333 1px, transparent 1px);
+    background-size: 20px 20px;
+    opacity: 0.5; /* Base opacity of the dots */
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+
+/* Shining effect on hover */
+.dotted-background:hover::before {
+    background-image: radial-gradient(circle, #ffffff 1px, transparent 1px); /* White glow on hover */
+    opacity: 1; /* Increase opacity on hover */
+}
+
+/* Main content within dotted background */
+.dotted-content {
+    position: relative;
+    z-index: 1;
+    color: #ffffff;
+    text-align: center;
+    padding: 2rem;
 }

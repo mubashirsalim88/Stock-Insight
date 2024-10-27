@@ -38,8 +38,14 @@ def view_stock(request, stock_symbol):
     # Fetch stock details and render the template
     return render(request, 'stock_detail.html', {'stock_symbol': stock_symbol})
 
+@login_required
 def home(request):
-    return render(request, 'home.html')
+    # Fetch the user's profile
+    profile = Profile.objects.get(user=request.user)  # Get the profile for the logged-in user
+    return render(request, 'home.html', {'profile': profile})  # Pass the profile to the template
+
+def index(request):
+    return render(request, 'index.html')
 
 def profile(request):
     return render(request, 'profile.html')
@@ -52,6 +58,7 @@ def market_today(request):
 
 User = get_user_model()
 
+
 @csrf_exempt
 def register(request):
     if request.method == 'POST':
@@ -62,6 +69,15 @@ def register(request):
         phone_number = request.POST.get('phone_number')
         dob = request.POST.get('dob')  # Ensure this line retrieves the dob field
         gender = request.POST.get('gender')
+        trading_knowledge = request.POST.get('trading_knowledge')
+        profession = request.POST.get('profession')
+        experience_level = request.POST.get('experience_level')
+        interests = request.POST.get('interests')
+
+        # Print the retrieved values for debugging
+        print(f"Phone Number: {phone_number}, DOB: {dob}, Gender: {gender}, "
+              f"Trading Knowledge: {trading_knowledge}, Profession: {profession}, "
+              f"Experience: {experience_level}, Interests: {interests}")
 
         # Check if user already exists
         if User.objects.filter(username=email).exists():
@@ -86,12 +102,19 @@ def register(request):
         profile.phone_number = phone_number
         profile.dob = dob
         profile.gender = gender
+        profile.trading_knowledge = trading_knowledge  # Ensure this field is set
+        profile.profession = profession  # Save profession
+        profile.experience = experience_level  # Save experience level
+        profile.interests = interests  # Save interests
         profile.save()
 
         messages.success(request, "Registration successful. You can now log in.")
         return redirect('login')
 
     return render(request, 'register.html')
+
+
+
 
 @csrf_exempt
 def login(request):
@@ -108,4 +131,4 @@ def login(request):
 
 def logout(request):
     auth_logout(request)
-    return redirect('home')
+    return redirect('index')

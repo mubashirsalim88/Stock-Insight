@@ -1,30 +1,67 @@
 {% extends 'technical_analysis/technical_analysis_base.html' %}
 
+{% load static %}
+
 {% block title %}Technical Analysis - Candlestick Patterns{% endblock %}
 
 {% block content %}
     <div class="min-h-screen w-full flex justify-center items-center p-0">
-        <div class="bg-white bg-opacity-90 rounded-lg p-8 shadow-xl text-gray-800 w-full max-w-5xl">
-            <h2 class="text-3xl font-bold mb-4 text-blue-600">Understanding Candlestick Patterns</h2>
-            <p class="mb-6 text-lg">Candlestick patterns are used to predict the future movement of prices. Each candlestick shows open, high, low, and close prices for a specific time frame.</p>
+        <div class="bg-white bg-opacity-90 rounded-lg p-8 shadow-xl text-gray-800 w-full max-w-5xl space-y-12">
+            
+            <!-- Main Title -->
+            <h1 class="text-4xl font-extrabold text-center text-indigo-700 mb-6">📊 Candlestick Patterns Overview</h1>
+            <p class="text-lg text-center mb-6 font-semibold text-gray-600">
+                Candlestick patterns are essential tools in technical analysis that help traders identify potential price movements and market sentiment.
+            </p>
 
-            <h3 class="text-2xl font-bold mb-2">Popular Patterns:</h3>
-            <ul class="list-disc list-inside mb-4">
-                <li>Doji</li>
-                <li>Hammer</li>
-                <li>Engulfing Patterns</li>
-            </ul>
+            <!-- Popular Candlestick Patterns -->
+            <section class="space-y-12">
+                <h3 class="text-3xl font-extrabold text-yellow-600 mb-4">🌟 Key Candlestick Patterns:</h3>
 
-            <div class="flex justify-center mt-6">
-                <img src="https://via.placeholder.com/600x300?text=Candlestick+Patterns" alt="Candlestick Patterns" class="rounded-lg shadow-lg transition-transform transform hover:scale-105 duration-300">
-            </div>
+                <!-- Doji -->
+                <div class="transition duration-300 ease-in-out transform hover:scale-105 bg-yellow-50 p-6 rounded-lg shadow-lg">
+                    <h4 class="text-2xl font-bold mb-2 text-indigo-600">Doji</h4>
+                    <p class="text-lg text-gray-700">Indicates indecision in the market, where the opening and closing prices are almost identical.</p>
+                    <div class="flex justify-center space-x-8 mt-4">
+                        <img src="{% static 'imgs/doji1.png' %}" alt="Doji Pattern 1" class="h-60 w-60 rounded-lg shadow-lg">
+                        <img src="{% static 'imgs/doji2.png' %}" alt="Doji Pattern 2" class="h-60 w-60 rounded-lg shadow-lg">
+                    </div>
+                </div>
 
-            <!-- Back and Next buttons -->
+                <!-- Bullish Engulfing -->
+                <div class="transition duration-300 ease-in-out transform hover:scale-105 bg-green-50 p-6 rounded-lg shadow-lg">
+                    <h4 class="text-2xl font-bold mb-2 text-green-600">Bullish Engulfing</h4>
+                    <p class="text-lg text-gray-700">A bullish reversal pattern where a larger green candlestick fully engulfs the previous smaller red candlestick.</p>
+                    <div class="flex justify-center space-x-8 mt-4">
+                        <img src="{% static 'imgs/bullish_engulfing1.png' %}" alt="Bullish Engulfing 1" class="h-60 w-60 rounded-lg shadow-lg">
+                        <img src="{% static 'imgs/bullish_engulfing2.png' %}" alt="Bullish Engulfing 2" class="h-60 w-60 rounded-lg shadow-lg">
+                    </div>
+                </div>
+
+                <!-- Bearish Engulfing -->
+                <div class="transition duration-300 ease-in-out transform hover:scale-105 bg-red-50 p-6 rounded-lg shadow-lg">
+                    <h4 class="text-2xl font-bold mb-2 text-red-600">Bearish Engulfing</h4>
+                    <p class="text-lg text-gray-700">A bearish reversal pattern where a larger red candlestick fully engulfs the previous smaller green candlestick.</p>
+                    <div class="flex justify-center space-x-8 mt-4">
+                        <img src="{% static 'imgs/bearish_engulfing1.png' %}" alt="Bearish Engulfing 1" class="h-60 w-60 rounded-lg shadow-lg">
+                        <img src="{% static 'imgs/bearish_engulfing2.png' %}" alt="Bearish Engulfing 2" class="h-60 w-60 rounded-lg shadow-lg">
+                    </div>
+                </div>
+
+                <!-- Hammer -->
+                <div class="transition duration-300 ease-in-out transform hover:scale-105 bg-blue-50 p-6 rounded-lg shadow-lg">
+                    <h4 class="text-2xl font-bold mb-2 text-yellow-500">Hammer</h4>
+                    <p class="text-lg text-gray-700">A bullish reversal pattern that forms at the bottom of a downtrend. It has a long lower shadow and a small body.</p>
+                    <div class="flex justify-center space-x-8 mt-4">
+                        <img src="{% static 'imgs/hammer1.png' %}" alt="Hammer Pattern 1" class="h-60 w-60 rounded-lg shadow-lg">
+                        <img src="{% static 'imgs/hammer2.png' %}" alt="Hammer Pattern 2" class="h-60 w-60 rounded-lg shadow-lg">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Back and Next Buttons -->
             <div class="flex justify-between mt-8">
-                <!-- Back Button (using JavaScript to navigate back) -->
                 <a href="javascript:history.back()" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition duration-300">Back</a>
-                
-                <!-- Next Button -->
                 <a href="{% url 'slide_support_resistance' %}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">Next: Support and Resistance</a>
             </div>
         </div>

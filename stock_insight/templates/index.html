@@ -6,24 +6,13 @@
 /* Hero Section Styling */
 .dotted-background {
     position: relative;
+    background-color: #111827;
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    animation: bgAnimation 10s ease infinite; /* Add animation */
-    background: linear-gradient(45deg, #ff6f91, #8e44ad, #3498db, #f1c40f, #ff6f91);
-    background-size: 400% 400%; /* Increase the size for smoother transition */
 }
-
-@keyframes bgAnimation {
-    0% { background-position: 0% 50%; }
-    25% { background-position: 100% 50%; }
-    50% { background-position: 0% 50%; }
-    75% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
 .dotted-background::before {
     content: "";
     position: absolute;
@@ -53,9 +42,7 @@
     -webkit-background-clip: text;
     color: transparent;
     animation: shimmer 3s linear infinite;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Add text shadow */
 }
-
 .cta-button {
     background-color: #6366F1;
     color: white;
@@ -64,24 +51,25 @@
     font-size: 1.2rem;
     transition: background-color 0.3s ease;
 }
-
 .cta-button:hover {
     background-color: #4F46E5;
 }
-
 </style>
 
 <!-- Hero Section -->
 <section class="dotted-background">
   <div class="dotted-content">
-    <h1 class="shimmer-text">Welcome, {{ user.first_name }}!</h1>
+    <h1 class="shimmer-text">Welcome to Stock Insight</h1>
+    <p class="text-xl text-blue-400 mb-8">Your ultimate platform for real-time market insights and personalized trading guidance.</p>
+    <p class="text-lg md:text-xl text-gray-200 mb-4">Join a community of savvy investors and start making informed investment decisions today!</p>
+    <a href="{% url 'register' %}" class="cta-button">Get Started for Free</a>
   </div>
 </section>
 
 <!-- Key Features Section -->
 <section class="py-16 bg-gray-50">
   <div class="container mx-auto text-center">
-    <h2 class="text-4xl font-bold mb-10 text-indigo-900">Your Dashboard Features</h2>
+    <h2 class="text-4xl font-bold mb-10 text-indigo-900">Why Choose Stock Insight?</h2>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
       <div class="p-6 rounded-lg shadow-lg bg-white transition-transform transform hover:scale-105">
         <i class="fas fa-chart-line fa-3x text-blue-500 mb-4"></i>
@@ -102,6 +90,14 @@
   </div>
 </section>
 
-<!-- Additional Sections as needed -->
+<!-- Call to Action Section -->
+<section class="py-16 bg-gradient-to-r from-purple-600 to-blue-600">
+  <div class="container mx-auto text-center text-white">
+    <h2 class="text-4xl font-bold mb-6">Ready to Elevate Your Trading?</h2>
+    <p class="mb-8 text-lg">Join Stock Insight today and start experiencing market insights like never before!</p>
+    <a href="{% url 'register' %}" class="cta-button bg-yellow-500 text-white hover:bg-yellow-400 transition duration-300">Register Now</a>
+  </div>
+</section>
+
 
 {% endblock content %}
