@@ -71,6 +71,9 @@ def upstox_authorize(request):
     return redirect(url)
 
 def upstox_callback(request):
+    # Log the request parameters for debugging
+    print("Request GET parameters:", request.GET)
+    
     authorization_code = request.GET.get('code')
     if authorization_code:
         url = "https://api-v2.upstox.com/v2/login/authorization/token"
@@ -83,6 +86,7 @@ def upstox_callback(request):
         }
         response = requests.post(url, data=data)
         access_token_info = response.json()
+        print("Upstox response:", access_token_info)  # Log response content
 
         if response.status_code == 200 and 'access_token' in access_token_info:
             access_token = access_token_info.get('access_token')
@@ -101,6 +105,7 @@ def upstox_callback(request):
             return HttpResponse(f"Error during token exchange: {error_message}")
     else:
         return HttpResponse("Authorization failed: No authorization code provided.")
+
     
 
 
