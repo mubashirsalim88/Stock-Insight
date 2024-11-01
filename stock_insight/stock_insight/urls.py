@@ -44,4 +44,5 @@ urlpatterns = [
     path('buy/', portfolio.buy_stock, name='buy_stock'),
     path('sell/', portfolio.sell_stock, name='sell_stock'),
     path('performance/', portfolio.portfolio_performance, name='portfolio_performance'),
+    path('portfolio_real_time_value/', portfolio.portfolio_real_time_value, name='portfolio_real_time_value'),
 ]
