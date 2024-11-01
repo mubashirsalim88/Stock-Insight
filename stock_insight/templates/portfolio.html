@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto">
+    <h2 class="text-2xl font-bold mb-4">Your Portfolio</h2>
+    
+    <!-- Portfolio Summary -->
+    <div class="bg-gray-100 p-4 rounded mb-4">
+        <h3 class="text-xl font-semibold">Portfolio Summary</h3>
+        <p>Total Stocks: {{ portfolio|length }}</p>
+        <p>Total Shares: {{ total_shares }}</p>
+        <p>Total Investment Value: {{ total_investment_value }}</p> 
+    </div>
+    
+    <!-- Portfolio Table -->
+    <table class="min-w-full bg-white mb-8">
+        <thead>
+            <tr>
+                <th class="py-2 px-4 border-b">Stock Symbol</th>
+                <th class="py-2 px-4 border-b">Shares</th>
+                <th class="py-2 px-4 border-b">Average Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in portfolio %}
+            <tr>
+                <td class="py-2 px-4 border-b">{{ item.stock_symbol }}</td>
+                <td class="py-2 px-4 border-b">{{ item.shares }}</td>
+                <td class="py-2 px-4 border-b">{{ item.average_price }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3" class="text-center py-4">No holdings found in your portfolio.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Transactions Table -->
+    <h2 class="text-2xl font-bold mb-4">Transaction History</h2>
+    <table class="min-w-full bg-white">
+        <thead>
+            <tr>
+                <th class="py-2 px-4 border-b">Date</th>
+                <th class="py-2 px-4 border-b">Stock Symbol</th>
+                <th class="py-2 px-4 border-b">Shares</th>
+                <th class="py-2 px-4 border-b">Action</th>
+                <th class="py-2 px-4 border-b">Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for transaction in transactions %}
+            <tr>
+                <td class="py-2 px-4 border-b">{{ transaction.date }}</td>
+                <td class="py-2 px-4 border-b">{{ transaction.stock_symbol }}</td>
+                <td class="py-2 px-4 border-b">{{ transaction.shares }}</td>
+                <td class="py-2 px-4 border-b">{{ transaction.action }}</td>
+                <td class="py-2 px-4 border-b">{{ transaction.price }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="text-center py-4">No transactions found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

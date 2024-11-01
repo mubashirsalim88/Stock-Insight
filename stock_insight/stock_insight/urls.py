@@ -25,6 +25,9 @@ urlpatterns = [
     path('upstox/callback/', upstox_views.upstox_callback, name='upstox_callback'),  # Upstox callback view
     path('fetch-historical-data/', upstox_views.fetch_historical_data, name='fetch_historical_data'),  # Fetch historical data view
     path('fetch-historical-data/<str:stock_symbol>/', upstox_views.fetch_historical_data, name='fetch_historical_data_with_symbol'),  # Fetch historical data for specific stock
+    path('trade-stock/', upstox_views.trade_stock, name='trade_stock'),
+    path('portfolio/', upstox_views.view_portfolio, name='portfolio'),
+
     
    path('technical-analysis/', ta_views.landing_page, name='technical_analysis_landing'),  # Landing Page
     path('technical-analysis/stock-market/', ta_views.slide_stock_market, name='slide_stock_market'),  # Stock Market Intro
@@ -40,7 +43,7 @@ urlpatterns = [
     path('technical-analysis/practical/', ta_views.slide_practical_application, name='slide_practical_application'),  # Practical Application with TradingView
 
     # Portfolio App URLs
-    path('portfolio/', portfolio.portfolio_overview, name='portfolio_overview'),
+    # path('portfolio/', portfolio.portfolio_overview, name='portfolio_overview'),
     path('buy/', portfolio.buy_stock, name='buy_stock'),
     path('sell/', portfolio.sell_stock, name='sell_stock'),
     path('performance/', portfolio.portfolio_performance, name='portfolio_performance'),

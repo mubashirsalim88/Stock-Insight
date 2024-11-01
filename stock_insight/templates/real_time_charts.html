@@ -18,8 +18,7 @@
     <div class="flex flex-grow">
 
         <!-- Sidebar (Stock List) -->
-        <aside id="default-sidebar"
-            class="bg-blue-50 p-4 overflow-y-auto rounded-lg shadow-lg"
+        <aside id="default-sidebar" class="bg-blue-50 p-4 overflow-y-auto rounded-lg shadow-lg"
             style="height: 700px; min-width: 250px; max-width: 250px; flex-basis: 25%; border: 1px solid #e0e0e0;">
             <div class="h-full px-3 py-4 space-y-4">
 
@@ -67,6 +66,25 @@
                 <div id="chart-data" style="height: 700px; min-width: 310px;"></div>
             </div>
         </main>
+
+        <!-- Buy/Sell Form Section -->
+        <div class="buy-sell-section mt-4">
+            <h2 class="text-xl font-bold text-blue-800">Trade Stock</h2>
+            <form id="trade-form" class="flex flex-col space-y-4">
+                <input type="hidden" id="trade-symbol" value="{{ stock_symbol }}">
+
+                <label for="shares" class="text-gray-700">Shares:</label>
+                <input type="number" id="trade-shares" min="1" class="p-2 border border-gray-300 rounded-md" required>
+
+                <button type="button" id="buy-button" class="bg-green-500 text-white p-2 rounded-lg">Buy</button>
+                <button type="button" id="sell-button" class="bg-red-500 text-white p-2 rounded-lg">Sell</button>
+                
+
+                <div id="trade-message" class="text-center mt-2"></div>
+            </form>
+        </div>
+
+
     </div>
 
 </div>

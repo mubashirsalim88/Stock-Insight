@@ -42,3 +42,25 @@ class UpstoxToken(models.Model):
 
     def __str__(self):
         return f"Token {self.access_token[:10]}..."
+
+
+class Transaction(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)  # Use AUTH_USER_MODEL
+    stock_symbol = models.CharField(max_length=10)
+    shares = models.IntegerField()
+    action = models.CharField(max_length=4)  # 'buy' or 'sell'
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    date = models.DateTimeField(auto_now_add=True)  # Automatically set the field to now when the object is first created
+
+    def __str__(self):
+        return f"{self.action} {self.shares} shares of {self.stock_symbol} at {self.price} on {self.date}"
+
+
+class Portfolio(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    stock_symbol = models.CharField(max_length=10)  # Example field, adjust as needed
+    shares = models.PositiveIntegerField(default=0)
+    average_price = models.DecimalField(max_digits=20, decimal_places=10, default=0)
+
+    class Meta:
+        unique_together = ('user', 'stock_symbol') 

@@ -7,6 +7,116 @@ from .models import UpstoxToken
 from django.utils import timezone
 from datetime import datetime, timedelta
 from .instrument_keys import INSTRUMENT_KEYS
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from decimal import Decimal
+import json
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.utils import timezone  # Import timezone for timestamps
+from .models import Transaction, Portfolio
+
+from decimal import Decimal
+import json
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from .models import Transaction, Portfolio
+from django.conf import settings
+
+@csrf_exempt  # If you're testing and want to skip CSRF checks; remove in production
+def trade_stock(request):
+    if request.method == 'POST':
+        try:
+            # Load JSON data from the request body
+            data = json.loads(request.body)
+            stock_symbol = data.get('symbol')
+            shares = Decimal(data.get('shares', 0))
+            action = data.get('action')
+            price = Decimal(data.get('price'))
+
+            print(f"Received data: {data}")  # Log all received data
+            print(f"Received price: {price}")  # Log the price received
+
+            # Validation checks
+            if stock_symbol is None or action is None:
+                return JsonResponse({'error': 'Symbol and action are required.'}, status=400)
+
+            if action not in ['buy', 'sell']:
+                return JsonResponse({'error': 'Action must be buy or sell.'}, status=400)
+
+            if shares <= 0 or price <= 0:
+                return JsonResponse({'error': 'Shares and price must be positive values.'}, status=400)
+
+            # Create a new transaction
+            Transaction.objects.create(
+                user=request.user,
+                stock_symbol=stock_symbol,
+                shares=int(shares),  # Convert shares to an integer
+                action=action,
+                price=price
+            )
+
+            # Update portfolio based on action
+            portfolio, created = Portfolio.objects.get_or_create(
+                user=request.user,
+                stock_symbol=stock_symbol,
+                defaults={'shares': 0, 'average_price': Decimal(0)}
+            )
+
+            if action == 'buy':
+                # Calculate new average price
+                total_cost = (portfolio.average_price * Decimal(portfolio.shares)) + (price * shares)
+                portfolio.shares += int(shares)
+                portfolio.average_price = total_cost / Decimal(portfolio.shares)
+                portfolio.save()
+                message = f"Successfully bought {int(shares)} shares of {stock_symbol}."
+
+            elif action == 'sell':
+                if portfolio.shares < shares:
+                    return JsonResponse({'error': 'Insufficient shares to sell'}, status=400)
+                portfolio.shares -= int(shares)
+                if portfolio.shares == 0:
+                    portfolio.average_price = Decimal(0)  # Reset average price if no shares are left
+                else:
+                    # Update average price when shares remain
+                    total_cost = (portfolio.average_price * Decimal(portfolio.shares)) + (price * shares)
+                    portfolio.average_price = total_cost / Decimal(portfolio.shares)
+                portfolio.save()
+                message = f"Successfully sold {int(shares)} shares of {stock_symbol}."
+
+            return JsonResponse({'message': message})
+
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON.'}, status=400)
+        except Exception as e:
+            print(f"Error: {str(e)}")  # Log the error for debugging
+            return JsonResponse({'error': 'An unexpected error occurred.'}, status=500)
+
+    return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+
+
+
+from django.shortcuts import render
+from .models import Portfolio, Transaction
+from django.db.models import Sum, F
+
+def view_portfolio(request):
+    portfolio = Portfolio.objects.filter(user=request.user)
+    transactions = Transaction.objects.filter(user=request.user).order_by('-date')  # Assuming 'date' is your date field in the Transaction model
+
+    # Calculate total shares and total investment value
+    total_shares = portfolio.aggregate(Sum('shares'))['shares__sum'] or 0
+    total_investment_value = sum(item.average_price * item.shares for item in portfolio)
+
+    context = {
+        'portfolio': portfolio,
+        'transactions': transactions,
+        'total_shares': total_shares,
+        'total_investment_value': total_investment_value
+    }
+    return render(request, 'portfolio.html', context)
+
 
 
 def fetch_historical_data(request, stock_symbol):
