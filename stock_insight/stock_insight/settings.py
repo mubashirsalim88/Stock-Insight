@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'main',
     'upstox_integration',
     'technical_analysis',
-    'portfolio'
 ]
 
 MIDDLEWARE = [

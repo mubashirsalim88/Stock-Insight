@@ -19,6 +19,7 @@
                 <th class="py-2 px-4 border-b">Stock Symbol</th>
                 <th class="py-2 px-4 border-b">Shares</th>
                 <th class="py-2 px-4 border-b">Average Price</th>
+                <th class="py-2 px-4 border-b">Sell Shares</th>
             </tr>
         </thead>
         <tbody>
@@ -27,10 +28,25 @@
                 <td class="py-2 px-4 border-b">{{ item.stock_symbol }}</td>
                 <td class="py-2 px-4 border-b">{{ item.shares }}</td>
                 <td class="py-2 px-4 border-b">{{ item.average_price }}</td>
+                <td class="py-2 px-4 border-b">
+                    <form class="trade-form" method="post" action="{% url 'trade_stock' %}" id="trade-form-{{ item.id }}">
+                        {% csrf_token %}
+                        <input type="hidden" name="symbol" value="{{ item.stock_symbol }}">
+                        <input type="hidden" name="action" value="sell">
+                        
+                        <label for="shares">Shares to Sell:</label>
+                        <input type="number" name="shares" min="1" max="{{ item.shares }}" required class="border rounded p-1">
+                        
+                        <label for="price">Price:</label>
+                        <input type="number" name="price" step="0.01" min="0.01" required class="border rounded p-1">
+                        
+                        <button type="submit" class="bg-blue-500 text-white rounded p-1">Sell</button>
+                    </form>
+                </td>
             </tr>
             {% empty %}
             <tr>
-                <td colspan="3" class="text-center py-4">No holdings found in your portfolio.</td>
+                <td colspan="4" class="text-center py-4">No holdings found in your portfolio.</td>
             </tr>
             {% endfor %}
         </tbody>
@@ -65,4 +81,41 @@
         </tbody>
     </table>
 </div>
+
+<script>
+document.querySelectorAll('.trade-form').forEach(form => {
+    form.addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        const formData = new FormData(form);
+        const data = {
+            symbol: formData.get('symbol'),
+            shares: formData.get('shares'),
+            action: formData.get('action'),
+            price: formData.get('price')
+        };
+
+        fetch("{% url 'trade_stock' %}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'  // Include the CSRF token
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                alert(data.error);
+            } else {
+                alert(data.message);
+                // Optionally, refresh the portfolio data or remove the stock from the view
+                location.reload();  // Reload the page to update the displayed portfolio
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+});
+</script>
+
 {% endblock %}

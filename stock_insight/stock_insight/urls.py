@@ -2,8 +2,7 @@ from django.contrib import admin
 from django.urls import path
 from main import views as main_views  # Import views from the correct app
 from upstox_integration import views as upstox_views
-from technical_analysis import views as ta_views  # Import views from technical_analysis app
-from portfolio import views as portfolio 
+from technical_analysis import views as ta_views  # Import views from technical_analysis app 
 
 
 urlpatterns = [
@@ -41,11 +40,4 @@ urlpatterns = [
     path('technical-analysis/indicators/', ta_views.slide_indicators, name='slide_indicators'),  # Indicators (MACD, RSI)
     path('technical-analysis/candlesticks/', ta_views.slide_candlesticks, name='slide_candlesticks'),  # Candlestick Patterns
     path('technical-analysis/practical/', ta_views.slide_practical_application, name='slide_practical_application'),  # Practical Application with TradingView
-
-    # Portfolio App URLs
-    # path('portfolio/', portfolio.portfolio_overview, name='portfolio_overview'),
-    path('buy/', portfolio.buy_stock, name='buy_stock'),
-    path('sell/', portfolio.sell_stock, name='sell_stock'),
-    path('performance/', portfolio.portfolio_performance, name='portfolio_performance'),
-    path('portfolio_real_time_value/', portfolio.portfolio_real_time_value, name='portfolio_real_time_value'),
 ]

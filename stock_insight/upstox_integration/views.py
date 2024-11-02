@@ -95,8 +95,6 @@ def trade_stock(request):
     return JsonResponse({'error': 'Invalid request method'}, status=400)
 
 
-
-
 from django.shortcuts import render
 from .models import Portfolio, Transaction
 from django.db.models import Sum, F
