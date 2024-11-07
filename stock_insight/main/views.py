@@ -11,6 +11,24 @@ from django.contrib.auth import logout as auth_logout
 from .models import UserActivity
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
+from django.contrib.auth import authenticate, login as auth_login
+from django.shortcuts import redirect, render
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from upstox_integration.models import Profile, Portfolio, CustomUser, Transaction
+from django.contrib.auth import get_user_model
+from upstox_integration.models import Profile, Portfolio, Transaction
+from main.models import UserActivity
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model
+from upstox_integration.models import Profile
+from django.shortcuts import render
+from django.contrib.auth import get_user_model
+from django.utils import timezone
+
+
 
 @login_required
 def search_stock(request):
@@ -38,11 +56,33 @@ def view_stock(request, stock_symbol):
     # Fetch stock details and render the template
     return render(request, 'stock_detail.html', {'stock_symbol': stock_symbol})
 
+
 @login_required
 def home(request):
     # Fetch the user's profile
-    profile = Profile.objects.get(user=request.user)  # Get the profile for the logged-in user
-    return render(request, 'home.html', {'profile': profile})  # Pass the profile to the template
+    profile = Profile.objects.get(user=request.user)
+    
+    # Assign default values if profile fields are None
+    profile_data = {
+        'phone_number': profile.phone_number if profile.phone_number else "Not provided",
+        'gender': profile.gender if profile.gender else "Not provided",
+        'profession': profile.profession if profile.profession else "Not provided",
+        'trading_knowledge': profile.trading_knowledge if profile.trading_knowledge else "Not provided",
+    }
+    
+    # Fetch the user's recent activities
+    user_activities = UserActivity.objects.filter(user=request.user).order_by('-timestamp')[:5]
+
+    # Fetch user's portfolio (if any)
+    portfolio = Portfolio.objects.filter(user=request.user)
+    
+    return render(request, 'home.html', {
+        'profile': profile_data,
+        'user_activities': user_activities,
+        'portfolio': portfolio
+    })
+
+ 
 
 def index(request):
     return render(request, 'index.html')
@@ -119,15 +159,90 @@ def register(request):
 @csrf_exempt
 def login(request):
     if request.method == 'POST':
-        username = request.POST['username']  # Authenticate using username instead of email
+        username = request.POST['username']
         password = request.POST['password']
-        user = authenticate(request, username=username, password=password)  # Authenticate with username
+        user = authenticate(request, username=username, password=password)
         if user is not None:
             auth_login(request, user)
-            return redirect('home')  # Redirect to the dashboard or home page
+            # Check if the user is an admin
+            if user.is_superuser:
+                return redirect('admin_dashboard')  # Redirect to custom admin dashboard
+            else:
+                return redirect('home')  # Redirect non-admin users to the home page
         else:
             return render(request, 'login.html', {'error': 'Invalid credentials'})
     return render(request, 'login.html')
+
+
+@login_required
+def admin_dashboard(request):
+    User = get_user_model()
+    total_users = User.objects.count()
+    active_users = User.objects.filter(last_login__gte=timezone.now() - timezone.timedelta(days=7)).count()  # Active users in the past week
+    users_with_portfolio = Portfolio.objects.values('user').distinct().count()
+    deleted_users_today = User.objects.filter(date_joined__gte=timezone.now().date()).count()  # You might need to adjust this based on your deletion tracking logic
+    
+    recent_user_activities = UserActivity.objects.order_by('-timestamp')[:5]
+    recent_transactions = Transaction.objects.order_by('-date')[:5]
+    recent_portfolio_changes = Portfolio.objects.order_by('-id')[:5]  # You may want to filter based on changes
+
+    context = {
+        'total_users': total_users,
+        'active_users': active_users,
+        'users_with_portfolio': users_with_portfolio,
+        'deleted_users_today': deleted_users_today,
+        'recent_user_activities': recent_user_activities,
+        'recent_transactions': recent_transactions,
+        'recent_portfolio_changes': recent_portfolio_changes,
+    }
+
+    return render(request, 'admin_dashboard.html', context)
+
+
+# Manage users view
+@login_required
+def manage_users(request):
+    User = get_user_model()
+    users = User.objects.all()
+    return render(request, 'manage_users.html', {'users': users})
+
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+
+# Edit user view
+@login_required
+def edit_user(request, user_id):
+    User = get_user_model()
+    user = get_object_or_404(User, id=user_id)
+
+    if request.method == 'POST':
+        # Update user information
+        user.username = request.POST.get('username')
+        user.email = request.POST.get('email')
+        # You can add more fields to update here if needed
+
+        user.save()
+        messages.success(request, f"User {user.username} updated successfully!")
+        return redirect('manage_users')
+
+    return render(request, 'edit_user.html', {'user': user})
+
+# Delete user view
+@login_required
+def delete_user(request, user_id):
+    User = get_user_model()
+    user = get_object_or_404(User, id=user_id)
+
+    if request.method == 'POST':
+        user.delete()
+        messages.success(request, f"User {user.username} deleted successfully!")
+        return redirect('manage_users')
+
+    return render(request, 'delete_user.html', {'user': user})
+
+
 
 def logout(request):
     auth_logout(request)

@@ -1,0 +1,120 @@
+{% extends 'admin_base.html' %}
+
+{% block content %}
+    <h1 class="text-3xl font-bold mb-6">Admin Dashboard</h1>
+
+    <!-- User Statistics Section -->
+    <div class="bg-white p-6 shadow-md rounded-lg mb-6">
+        <h2 class="text-xl font-semibold mb-4">User Statistics</h2>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-6">
+            <div class="bg-blue-600 text-white p-4 rounded-lg text-center">
+                <h3 class="text-lg font-bold">Total Users</h3>
+                <p class="text-3xl">{{ total_users }}</p>
+            </div>
+            <div class="bg-green-600 text-white p-4 rounded-lg text-center">
+                <h3 class="text-lg font-bold">Active Users</h3>
+                <p class="text-3xl">{{ active_users }}</p>
+            </div>
+            <div class="bg-yellow-600 text-white p-4 rounded-lg text-center">
+                <h3 class="text-lg font-bold">Users with Portfolio</h3>
+                <p class="text-3xl">{{ users_with_portfolio }}</p>
+            </div>
+            <div class="bg-red-600 text-white p-4 rounded-lg text-center">
+                <h3 class="text-lg font-bold">Users Deleted Today</h3>
+                <p class="text-3xl">{{ deleted_users_today }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent User Activity Section -->
+    <div class="bg-white p-6 shadow-md rounded-lg mb-6">
+        <h2 class="text-xl font-semibold mb-4">Recent User Activity</h2>
+        <table class="min-w-full table-auto">
+            <thead>
+                <tr class="bg-gray-100">
+                    <th class="px-4 py-2">User</th>
+                    <th class="px-4 py-2">Action</th>
+                    <th class="px-4 py-2">Stock Symbol</th>
+                    <th class="px-4 py-2">Timestamp</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for activity in recent_user_activities %}
+                    <tr class="border-t">
+                        <td class="px-4 py-2">{{ activity.user.username }}</td>
+                        <td class="px-4 py-2">{{ activity.action }}</td>
+                        <td class="px-4 py-2">{{ activity.stock_symbol }}</td>
+                        <td class="px-4 py-2">{{ activity.timestamp }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="4" class="px-4 py-2 text-center text-gray-500">No recent activities</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Recent Transactions Section -->
+    <div class="bg-white p-6 shadow-md rounded-lg mb-6">
+        <h2 class="text-xl font-semibold mb-4">Recent Transactions</h2>
+        <table class="min-w-full table-auto">
+            <thead>
+                <tr class="bg-gray-100">
+                    <th class="px-4 py-2">User</th>
+                    <th class="px-4 py-2">Stock Symbol</th>
+                    <th class="px-4 py-2">Action</th>
+                    <th class="px-4 py-2">Shares</th>
+                    <th class="px-4 py-2">Price</th>
+                    <th class="px-4 py-2">Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for transaction in recent_transactions %}
+                    <tr class="border-t">
+                        <td class="px-4 py-2">{{ transaction.user.username }}</td>
+                        <td class="px-4 py-2">{{ transaction.stock_symbol }}</td>
+                        <td class="px-4 py-2">{{ transaction.action }}</td>
+                        <td class="px-4 py-2">{{ transaction.shares }}</td>
+                        <td class="px-4 py-2">{{ transaction.price }}</td>
+                        <td class="px-4 py-2">{{ transaction.date }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="6" class="px-4 py-2 text-center text-gray-500">No recent transactions</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Recent Portfolio Changes Section -->
+    <div class="bg-white p-6 shadow-md rounded-lg mb-6">
+        <h2 class="text-xl font-semibold mb-4">Recent Portfolio Changes</h2>
+        <table class="min-w-full table-auto">
+            <thead>
+                <tr class="bg-gray-100">
+                    <th class="px-4 py-2">User</th>
+                    <th class="px-4 py-2">Stock Symbol</th>
+                    <th class="px-4 py-2">Shares</th>
+                    <th class="px-4 py-2">Average Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for portfolio in recent_portfolio_changes %}
+                    <tr class="border-t">
+                        <td class="px-4 py-2">{{ portfolio.user.username }}</td>
+                        <td class="px-4 py-2">{{ portfolio.stock_symbol }}</td>
+                        <td class="px-4 py-2">{{ portfolio.shares }}</td>
+                        <td class="px-4 py-2">{{ portfolio.average_price }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="4" class="px-4 py-2 text-center text-gray-500">No recent portfolio changes</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

@@ -151,8 +151,8 @@
         {% if user.is_authenticated %}
           <a href="{% url 'real_time_charts' %}" class="nav-button"><span>Real-Time Charts</span></a>
           <a href="{% url 'portfolio' %}" class="nav-button"><span>Portfolio</span></a>
-          <!-- <a href="{% url 'recommendations' %}" class="nav-button"><span>Recommendations</span></a>
-          <a href="{% url 'market_today' %}" class="nav-button"><span>Market Today</span></a> -->
+          <a href="{% url 'recommendations' %}" class="nav-button"><span>Recommendations</span></a>
+          <a href="{% url 'market_today' %}" class="nav-button"><span>Market Today</span></a>
           <a href="{% url 'technical_analysis_landing' %}" class="nav-button"><span>Learning</span></a>
         {% endif %}
       </nav>

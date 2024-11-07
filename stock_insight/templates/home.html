@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
 <style>
 /* Hero Section Styling */
 .dotted-background {
@@ -46,14 +45,38 @@
     color: #F3F4F6;
     padding: 2rem;
 }
+
+/* Shimmer effect on the welcome text */
 .shimmer-text {
-    font-size: 3.5rem;
+    font-size: 4rem;
     font-weight: bold;
     background: linear-gradient(to right, #FBBF24, #8B5CF6);
     -webkit-background-clip: text;
     color: transparent;
     animation: shimmer 3s linear infinite;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Add text shadow */
+}
+
+@keyframes shimmer {
+    0% { background-position: -100% 0; }
+    50% { background-position: 100% 0; }
+    100% { background-position: -100% 0; }
+}
+
+/* Scrolling Text for a Moving Welcome Message */
+.scroll-text {
+    font-size: 2rem;
+    color: #fff;
+    margin-top: 20px;
+    animation: moveText 15s linear infinite;
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-block;
+}
+
+@keyframes moveText {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
 }
 
 .cta-button {
@@ -68,13 +91,16 @@
 .cta-button:hover {
     background-color: #4F46E5;
 }
-
 </style>
 
 <!-- Hero Section -->
 <section class="dotted-background">
   <div class="dotted-content">
     <h1 class="shimmer-text">Welcome, {{ user.first_name }}!</h1>
+    <p class="text-lg">Your personalized stock trading dashboard awaits you.</p>
+    <div class="scroll-text">
+      <p>Start your trading journey today and unlock powerful insights with our AI-powered dashboard!</p>
+    </div>
   </div>
 </section>
 
@@ -102,6 +128,69 @@
   </div>
 </section>
 
-<!-- Additional Sections as needed -->
+<!-- Portfolio Section -->
+<section class="py-16 bg-white">
+  <div class="container mx-auto text-center">
+    <h2 class="text-4xl font-bold mb-10 text-indigo-900">Your Portfolio</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+      {% if portfolio %}
+        {% for stock in portfolio %}
+          <div class="p-6 rounded-lg shadow-lg bg-white">
+            <h3 class="text-xl font-semibold text-gray-700">{{ stock.stock_symbol }}</h3>
+            <p class="text-gray-600">Shares: {{ stock.shares }} | Average Price: {{ stock.average_price }}</p>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p class="text-lg text-gray-500">No stocks in your portfolio yet.</p>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+
+<!-- User Profile Info -->
+<section class="py-8 bg-white">
+  <div class="container mx-auto text-center">
+    <h2 class="text-3xl font-bold text-indigo-900">Your Profile Information</h2>
+    <p class="mt-4 text-lg">Here’s a summary of your profile:</p>
+    <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-10">
+      <div class="p-6 rounded-lg shadow-lg bg-white">
+        <h3 class="text-xl font-semibold text-gray-700">Phone Number</h3>
+        <p class="text-gray-600">{{ profile.phone_number }}</p>
+      </div>
+      <div class="p-6 rounded-lg shadow-lg bg-white">
+        <h3 class="text-xl font-semibold text-gray-700">Gender</h3>
+        <p class="text-gray-600">{{ profile.gender }}</p>
+      </div>
+      <div class="p-6 rounded-lg shadow-lg bg-white">
+        <h3 class="text-xl font-semibold text-gray-700">Profession</h3>
+        <p class="text-gray-600">{{ profile.profession }}</p>
+      </div>
+      <div class="p-6 rounded-lg shadow-lg bg-white">
+        <h3 class="text-xl font-semibold text-gray-700">Trading Knowledge</h3>
+        <p class="text-gray-600">{{ profile.trading_knowledge }}</p>
+      </div>      
+    </div>
+  </div>
+</section>
+
+<!-- Recent Activity Section -->
+<section class="py-16 bg-gray-50">
+  <div class="container mx-auto text-center">
+    <h2 class="text-4xl font-bold mb-10 text-indigo-900">Your Recent Activities</h2>
+    {% if user_activities %}
+      <ul class="space-y-4">
+        {% for activity in user_activities %}
+          <li class="p-4 bg-white rounded-lg shadow-md">
+            <p><strong>{{ activity.action|capfirst }}:</strong> {{ activity.stock_symbol }} at {{ activity.timestamp }}</p>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="text-lg text-gray-500">No recent activities.</p>
+    {% endif %}
+  </div>
+</section>
+
 
 {% endblock content %}

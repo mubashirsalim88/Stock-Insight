@@ -16,6 +16,10 @@ urlpatterns = [
     path('register/', main_views.register, name='register'),  # Main app register view
     path('login/', main_views.login, name='login'),  # Main app login view
     path('logout/', main_views.logout, name='logout'),  # Main app logout view
+    path('admin-dashboard/', main_views.admin_dashboard, name='admin_dashboard'), 
+    path('manage-users/', main_views.manage_users, name='manage_users'),
+    path('edit-user/<int:user_id>/', main_views.edit_user, name='edit_user'),
+    path('delete-user/<int:user_id>/', main_views.delete_user, name='delete_user'),
     
     # Upstox Integration URLs
     path('recommendations/', upstox_views.recommendations, name='recommendations'),  # Recommendations view

@@ -1,0 +1,16 @@
+<!-- delete_user.html -->
+{% extends 'admin_base.html' %}
+
+{% block content %}
+    <h1 class="text-3xl font-bold mb-6">Delete User</h1>
+    
+    <div class="bg-white p-6 shadow-md rounded-lg">
+        <p class="mb-4">Are you sure you want to delete the user <strong>{{ user.username }}</strong>?</p>
+        
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Delete</button>
+            <a href="{% url 'manage_users' %}" class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 ml-4">Cancel</a>
+        </form>
+    </div>
+{% endblock %}
